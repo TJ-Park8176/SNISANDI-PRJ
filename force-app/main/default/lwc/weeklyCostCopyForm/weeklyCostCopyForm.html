@@ -1,0 +1,18 @@
+<!--
+ - Created by MZC01-DGCHOI on 2022-12-09.
+ -->
+
+<!-- Weekly Cost Copy Form -->
+<template>
+    <lightning-quick-action-panel title="매입 업로드" class="uploadModal">
+        <div class="slds-align_absolute-center slds-text-heading_medium">매입을 업로드 하시겠습니까?</div>
+        <div slot="footer">
+            <lightning-button variant="brand" label="Upload" onclick={uploadObject}></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+
+    <div class="noticeBox" style="visibility:hidden">
+        <div class="slds-align_absolute-center slds-text-heading_medium"> {noticeMessage} </div>
+    </div>
+
+</template>

@@ -1,0 +1,41 @@
+.card-size {
+    width: 260px;
+    height: 160px;
+  }
+  
+  .card-padding {
+    padding: 16px;
+  }
+  
+  .body{
+    padding: 16px;
+  }
+  
+  .full-width{
+    width: 100%;
+  }
+  
+  .visual-picker-flex{
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 16px; 
+    justify-content: flex-start; 
+    width: 100%;
+  }
+  
+  .slds-visual-picker + .slds-visual-picker {
+    margin-left: 0rem;
+  }
+
+  .custom_layout{
+      display: grid;
+      grid-template-columns: 33% 1fr;
+      width: 100%;
+  }
+  .custom-item_layout{
+      display: flex;
+  }
+
+  .address-container {
+      padding: 12px;
+  }

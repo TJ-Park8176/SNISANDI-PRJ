@@ -1,0 +1,15 @@
+<!--
+ - Created by MZC01-DGCHOI on 2024-02-26.
+ -->
+
+<!-- Sandi Screenflow Test -->
+<!-- myComponent.html -->
+<template>
+    <lightning-flow
+            aura:id="myflow"
+            flow-api-name="test_screenflow"
+            flow-input-variables={inputVariables}
+            onstatuschange={handleStatusChange}>
+    </lightning-flow>
+    <lightning-button label="flow start" onclick={handleClick}></lightning-button>
+</template>

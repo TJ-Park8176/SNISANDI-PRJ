@@ -1,0 +1,248 @@
+<!--
+@description       : OrderSummary 화면에서 주문취소, 반품, 교환 버튼을 눌렀을 때, 수량과 사유를 선택하는 화면
+@author            : jisoolee@mz.co.kr
+@group             : 
+@last modified on  : 2024-03-20
+@last modified by  : jisoolee@mz.co.kr
+-->
+
+<template>
+    <template if:true={loading}>
+      <lightning-spinner alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+    </template>
+    
+    <template if:true={confirmedOrderList}>
+        <!-- <div class="orderManagementCls"> -->
+            <lightning-modal-header label={modalLabel}></lightning-modal-header>
+            <!-- 첫번째 화면 -->
+            <template if:true={isFirstPage}>
+                <lightning-modal-body>
+                    <div class="guideMessageCls">
+                        <p>{flagLabel} 수량과 {flagLabel} 사유를 선택하세요.</p>
+                    </div>
+                    <div class="confirmedOrderListCls">
+                            <table class="confirmedOrderTable">
+                                <colgroup>
+                                    <col style="width:35%">
+                                    <col style="width:10%">
+                                    <col style="width:10%">
+                                    <col style="width:10%">
+                                    <col style="width:35%">
+                                </colgroup>
+
+                                <thead>
+                                    <tr>
+                                        <th>상품 이름</th>
+                                        <th>최초 주문 수량</th>
+                                        <th>{flagLabel} 가능 수량</th>
+                                        <th>{flagLabel} 수량</th>
+                                        <th>{flagLabel} 사유 선택</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    <tr key={confirmedOrderList.Id}>
+                                        <td>
+                                            <lightning-formatted-text 
+                                                value={confirmedOrderList.productName}>
+                                            </lightning-formatted-text>
+                                        </td>
+                                        <td>
+                                            <lightning-formatted-number 
+                                                class="quantityOrderedCls"
+                                                value={confirmedOrderList.quantityOrdered}>
+                                            </lightning-formatted-number>
+                                        </td>
+                                        <td>
+                                            <lightning-formatted-number 
+                                                class="availableQuantityCls"
+                                                value={availableQuantity}>
+                                            </lightning-formatted-number>
+                                        </td>
+                                        <td>
+                                            <lightning-input  
+                                                class="inputQuantityCls"
+                                                name="InputQuantity"
+                                                type="number"
+                                                value={selectedQuantity}
+                                                placeholder=0
+                                                onchange={handleQuantityChange}>
+                                            </lightning-input>
+                                        </td>
+                                        <td>
+                                            <lightning-combobox
+                                                class="inputReasonCls"
+                                                name="options"
+                                                value={selectedReason}
+                                                placeholder="사유 선택"
+                                                options={reasonOptions}>
+                                            </lightning-combobox>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                    <div class="instructionCls">
+                        <lightning-formatted-rich-text value={instruction}></lightning-formatted-rich-text>
+                    </div>
+                </lightning-modal-body>
+                <lightning-modal-footer>
+                    <button class="slds-button slds-button_brand" onclick={clickNext}>다음</button>
+                </lightning-modal-footer>
+            </template>
+
+            <!-- 두번째 화면 -->
+            <template if:false={isFirstPage}>
+                <lightning-modal-body>
+                    <div>
+                        <p class="guideMessageCls">{flagLabel} 내용을 확인하세요.</p>
+                    </div>
+                    <div class="confirmedOrderListCls">
+                        <template if:true={confirmedOrderList}>
+                            <table class="confirmedOrderTable">
+                                <colgroup>
+                                    <col style="width:35%">
+                                    <col style="width:10%">
+                                    <col style="width:10%">
+                                    <col style="width:10%">
+                                    <col style="width:35%">
+                                </colgroup>
+                                
+                                <thead>
+                                    <tr>
+                                        <th>상품 이름</th>
+                                        <th>최초 주문 수량</th>
+                                        <th>{flagLabel} 가능 수량</th>
+                                        <th>{flagLabel} 수량</th>
+                                        <th>{flagLabel} 사유 선택</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    <tr key={confirmedOrderList.id}>
+                                        <td>
+                                            <lightning-formatted-text 
+                                                value={confirmedOrderList.productName}>
+                                            </lightning-formatted-text>
+                                        </td>
+                                        <td>
+                                            <lightning-formatted-number 
+                                                class="quantityOrderedCls"
+                                                value={confirmedOrderList.quantityOrdered}>
+                                            </lightning-formatted-number>
+                                        </td>
+                                        <td>
+                                            <lightning-formatted-number 
+                                                class="availableQuantityCls"
+                                                value={availableQuantity}>
+                                            </lightning-formatted-number>
+                                        </td>
+                                        <td>
+                                            <lightning-input  
+                                                class="finalInputQuantityCls"
+                                                name="InputQuantity"
+                                                type="number"
+                                                value={selectedQuantity}
+                                                onchange={handleQuantityChange} disabled>
+                                            </lightning-input>
+                                        </td>
+                                        <td>
+                                            <lightning-combobox
+                                                class="finalInputReasonCls"
+                                                name="options"
+                                                value={selectedReason}
+                                                options={reasonOptions}
+                                                onchange={handleDropdownChange} disabled>
+                                            </lightning-combobox>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </template>
+                    </div>
+                    <div class="amountInfoCls">
+                        <table class="amountInfoTable">
+                            <thead>
+                                <tr>
+                                    <th>결제 정보</th>
+                                    <th>상품 금액</th>
+                                    <th>할인 금액</th>
+
+                                    <th>취소/환불 정보</th>
+                                    <th>환불 상품 금액</th>
+                                    <th>할인 금액</th>
+                                    <th>배송비</th>
+
+                                    <th>환불 예정 금액</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <tr key={confirmedOrderList.Id}>
+                                    <td>&nbsp;&nbsp;</td>
+                                    <td>
+                                        <lightning-formatted-number 
+                                            class="totalAmountCls"
+                                            value={confirmedOrderList.finalTotalAmount}>
+                                        </lightning-formatted-number>
+                                    </td>
+                                    <td>
+                                        <lightning-formatted-number 
+                                            class="totalAmountCls"
+                                            value={confirmedOrderList.unitPrice}>
+                                        </lightning-formatted-number>
+                                    </td>
+
+                                    <td>&nbsp;&nbsp;</td>
+                                    <td>
+                                        <lightning-formatted-number 
+                                            class="totalAmountCls"
+                                            value={confirmedOrderList.unitPrice}>
+                                        </lightning-formatted-number>
+                                    </td>
+                                    <td>
+                                        <lightning-formatted-number 
+                                            class="totalAmountCls"
+                                            value={confirmedOrderList.unitPrice}>
+                                        </lightning-formatted-number>
+                                    </td>
+                                    <td>
+                                        <lightning-formatted-number 
+                                            class="totalAmountCls"
+                                            value={confirmedOrderList.unitPrice}>
+                                        </lightning-formatted-number>
+                                    </td>
+                                
+                                    <td>
+                                        <lightning-formatted-number 
+                                            class="totalAmountCls"
+                                            value={confirmedOrderList.unitPrice}>
+                                        </lightning-formatted-number>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </lightning-modal-body>
+                <lightning-modal-footer>
+                    <button class="slds-button slds-button_brand" onclick={clickPrevious}>이전</button>
+                    <button class="slds-button slds-button_brand" onclick={createConfirmedOrder}>접수</button>
+                </lightning-modal-footer>
+            </template>
+        <!-- </div> -->
+    </template>
+    <template if:false={confirmedOrderList}>
+        <lightning-modal-body>
+            <div class="errorMessageCls">
+                <p>{flagLabel} 가능한 상품이 아닙니다.</p>
+            </div>
+        </lightning-modal-body>
+    </template>
+
+    <lightning-flow if:true={renderFlow}
+        flow-api-name='SANDI_Create_Return_Confirmed_Order'
+        flow-input-variables={inputVariables}
+        onstatuschange={handleStatusChange}>
+    </lightning-flow>
+
+</template>

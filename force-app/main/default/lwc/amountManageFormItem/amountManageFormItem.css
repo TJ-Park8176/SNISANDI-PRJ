@@ -1,0 +1,6 @@
+.monthTable thead th{
+    padding-bottom:10px;
+}
+.monthTable tbody td:nth-child(3) {
+    padding-left:10px;
+}

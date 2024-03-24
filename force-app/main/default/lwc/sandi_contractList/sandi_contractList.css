@@ -1,0 +1,26 @@
+.result_wrap{
+    margin-top:2rem;
+}
+table{
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    table-layout: fixed;
+}
+table td, th{
+    border-top: 1px solid #ccc;
+    padding: 0.25rem 0.5rem;
+}
+table thead th{
+    border-top:0;
+}
+table tbody td > div{
+    min-height:45px;
+    display: flex;
+    align-items: center;
+}
+.text-overflow{
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

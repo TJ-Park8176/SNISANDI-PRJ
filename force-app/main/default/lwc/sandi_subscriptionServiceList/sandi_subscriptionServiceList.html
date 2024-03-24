@@ -1,0 +1,125 @@
+<template>
+    <div class="list_wrap">
+        <c-sandi_mypage-filter detail={filterDetail} onsearch={searchCondition}></c-sandi_mypage-filter>
+
+
+        <section class="result_wrap">
+            <table>
+                <colgroup>
+                    <col width="12%"/>
+                    <col width="30%" />
+                    <col />
+                    <col />
+                    <col />
+                    <col width="15%" />
+                    <col />
+                    <col />
+                </colgroup>
+
+                <thead>
+                    <tr>
+                        <th>구독서비스 번호</th>
+                        <th>상품</th>
+                        <th>상태</th>
+                        <th>계약일</th>
+                        <th>구독 개월수</th>
+                        <th>정기결제 금액</th>
+                        <th>정기결제일</th>
+                        <th>누적결제 횟수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>
+                                <a href="javascript:void(0)" class="text-overflow" onclick={handleDetail}>S1234567</a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-overflow">
+                                중소형빌딩자산관리(12개월)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-overflow">
+                                구독중
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-overflow">
+                                2024-03-05
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-overflow">
+                                12
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-overflow">
+                                1,200,000
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-overflow">
+                                5일
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-overflow">
+                                1회
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <a href="javascript:void(0)" class="text-overflow">S1234567</a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-overflow">
+                                중소형빌딩자산관리(12개월)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-overflow">
+                                구독중
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-overflow">
+                                2024-03-05
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-overflow">
+                                12
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-overflow">
+                                1,200,000
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-overflow">
+                                5일
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-overflow">
+                                1회
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+        </section>
+        
+
+        
+    </div>
+    
+</template>

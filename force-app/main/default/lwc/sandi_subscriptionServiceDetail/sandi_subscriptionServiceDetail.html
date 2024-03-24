@@ -1,0 +1,208 @@
+<template>
+    <lightning-modal-header label="구독서비스 상세"></lightning-modal-header>
+    <lightning-modal-body> 
+        <section class="detail_header detail_section">
+            <dl>
+                <dt>구독서비스 번호</dt>
+                <dd>S1234567</dd>
+            </dl>
+            <dl>
+                <dt>계약일</dt>
+                <dd>2024-03-05</dd>
+            </dl>
+            <dl>
+                <dt>정기결제일</dt>
+                <dd>5일</dd>
+            </dl>
+            <dl>
+                <dt>상태</dt>
+                <dd>구독중</dd>
+            </dl>
+            <dl class="product-item">
+                <dt>상품</dt>
+                <dd>중소형빌딩자산관리(12개월)</dd>
+            </dl>
+            <dl>
+                <dt>정기결제 금액</dt>
+                <dd>1,200,000</dd>
+            </dl>
+            <dl>
+                <dt>누적결제 횟수</dt>
+                <dd>1회</dd>
+            </dl>
+        </section>    
+
+        <section class="detail_section">
+            <lightning-tabset>
+                <lightning-tab label="결제내역">
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>회차</th>
+                                    <th>결제구분</th>
+                                    <th>결제일자</th>
+                                    <th>결제금액</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </lightning-tab>
+
+                <lightning-tab label="서비스 이력">
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>일자</th>
+                                    <th>상태</th>
+                                    <th>실제 배송/서비스일</th>
+                                    <th>상세 내역</th>
+                                    <th>실비 금액</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </lightning-tab>
+
+                <lightning-tab label="기타상세">
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>구독유형</th>
+                                    <th>서비스 시작일</th>
+                                    <th>서비스 종료일</th>
+                                    <th>남은 서비스 기간</th>
+                                    <th>정기 배송/ 서비스일</th>
+                                    <th>정기 결제일</th>
+                                    <th>정기 결제 금액</th>
+                                    <th>누적 결제 횟수</th>
+                                    <th>남은 결제 횟수</th>
+                                    <th>환불금</th>
+                                    <th>위약금</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            -
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </lightning-tab>
+            </lightning-tabset>
+        </section>
+
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button label="확인" onclick={handleClose}></lightning-button>
+    </lightning-modal-footer>
+</template>

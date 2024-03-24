@@ -1,0 +1,23 @@
+<template>
+    <!-- <template if:true={showModal}> -->
+        <lightning-quick-action-panel title="지점 재설정" class="uploadModal">
+            <div slot="header">
+                지점 재설정
+            </div>
+            <div class="slds-align_absolute-center slds-text-heading_medium">해당 수주와 연관된 수주 매출을 삭제하시겠습니까?</div>
+
+            <!-- <div style="height: 400px;">
+                <lightning-datatable
+                        key-field="id"
+                        data={tableData}
+                        columns={tableColumns}>
+                </lightning-datatable>
+            </div> -->
+
+            <div slot="footer">
+            <lightning-button variant="neutral" label="취소" onclick={closeAction}></lightning-button>
+            <lightning-button variant="brand" label="삭제" onclick={handleClick}></lightning-button>
+            </div>
+        </lightning-quick-action-panel>
+    <!-- </template> -->
+</template>

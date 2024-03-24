@@ -1,0 +1,33 @@
+<template>
+    <lightning-quick-action-panel header="주소 검색">
+        <div class="slds-box slds-theme–default" style="border:none;">
+            <div style="position:relative;width:100%;height:100%;">
+                <template if:false={loading}>
+                    <lightning-spinner variant="brand" alternative-text="Loading" size="medium"></lightning-spinner>
+                </template>
+
+                <!-- <template if:true={isAccount}> -->
+                <!--
+                <lightning-combobox
+                        name="progress"
+                        label="필드 선택"
+                        value={accountValue}
+                        placeholder="업데이트할 필드를 선택해주세요."
+                        options={accountOptions}
+                        onchange={handleChangeAcc} ></lightning-combobox>-->
+                <!-- </template> -->
+
+                <iframe
+                    src={visualforceSrc}
+                    height="100%"
+                    width="100%"
+                    frameborder="0"
+                    class={flexipageRegionWidth}
+                    onload={onLoad}
+                    sandbox="allow-same-origin allow-popups allow-scripts allow-forms allow-modals">
+                </iframe>
+
+            </div>
+        </div>
+    </lightning-quick-action-panel>
+</template>

@@ -1,0 +1,22 @@
+<!--
+  @description       : nicepayAuthentication
+  @author            : sungho.jo@mz.co.kr
+  @group             : megazoneCloud
+  @last modified on  : 2024-03-22
+  @last modified by  : sungho.jo@mz.co.kr
+-->
+<template>
+    <div class="vf_container" lwc:if={isOpenVfIframe}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container custom-modal__container">
+                <div class="slds-modal__content custom-modal__content" id="modal-content-id-1">
+                    <iframe src="/apex/SANDI_NicepayVF" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+          </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </div>
+    <div lwc:else>
+        <lightning-button onclick={paymentAuthRequest} label="멋진 결제 테스트"></lightning-button>
+    </div>
+</template>

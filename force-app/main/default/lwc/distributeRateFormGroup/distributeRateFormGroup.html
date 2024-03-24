@@ -1,0 +1,78 @@
+<!--
+ - Created by MZC01-DGCHOI on 2023-09-25.
+ -->
+
+<!-- Distribute Rate Form Group -->
+<template>
+    <lightning-card>
+    <div class="page-container">
+
+        <header>
+            <lightning-combobox name="versionOption"
+                                label="버전 선택"
+                                value={versionSelectedValue}
+                                options={versionOptions}
+                                onchange={handleVersionOption}>
+            </lightning-combobox>
+
+            <template if:true={latestVersion}>
+                <lightning-button
+                    class="calculBtn"
+                    label="계산"
+                    onclick={calculateButton}>
+                </lightning-button>
+            </template>
+        </header>
+
+        <template for:each={result} for:item="group" for:index="groupIdx">
+        <table class="groupTable" key={group.group_name}>
+            <thead>
+                <tr>
+                    <td colspan="5">{group.group_name}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Sender 명</td>
+                    <td colspan="3">Receiver 명</td>
+                </tr>
+                <tr>
+                    <td colspan="2">{group.sender_name}</td>
+                    <td colspan="3">{group.receiver_name}</td>
+                </tr>
+                <tr>
+                    <td>CC Code</td>
+                    <td>CC 명</td>
+                    <td>CC Code</td>
+                    <td>CC 명</td>
+                    <td>배부 비율</td>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={group.cc_list} for:item="cc">
+                    <tr key={cc.sender_cc_code}>
+                        <td>{cc.sender_cc_code}</td>
+                        <td>{cc.sender_cc_name}</td>
+                        <td>{cc.receiver_cc_code}</td>
+                        <td>{cc.receiver_cc_name}</td>
+                        <td>
+                            <template if:true={cc.cc_distribute_rate}>
+                                <div class="input-container">
+                                    <lightning-input
+                                            class="input-rate"
+                                            variant="label-hidden"
+                                            type="text"
+                                            value={cc.cc_distribute_rate}
+                                            read-only="true">
+                                    </lightning-input>
+                                    <span class="percentage-symbol">%</span>
+                                </div>
+                            </template>
+                        </td>
+                    </tr>
+                </template>
+
+            </tbody>
+        </table>
+        </template>
+    </div>
+    </lightning-card>
+</template>

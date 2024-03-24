@@ -1,0 +1,26 @@
+<!--
+ - Created by MZC01-DGCHOI on 2023-02-27.
+ -->
+
+<!-- Oppty Performance Copy Form -->
+<template>
+    <template if:true={isAdmin}>
+        <lightning-quick-action-panel title="실적(영업수주) 산출" class="uploadModal">
+            <div class="slds-align_absolute-center slds-text-heading_medium">실적(영업수주)을 산출하시겠습니까?</div>
+            <div slot="footer">
+                <!-- <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button> -->
+                <lightning-button variant="brand" label="Upload" onclick={uploadObject}></lightning-button>
+            </div>
+        </lightning-quick-action-panel>
+
+        <div class="noticeBox" style="visibility:hidden">
+            <div class="slds-align_absolute-center slds-text-heading_medium"> {noticeMessage} </div>
+        </div>
+    </template>
+
+    <template if:false={isAdmin}>
+        <div style="padding-top:20px">
+            <div class="slds-align_absolute-center slds-text-heading_medium"> {alertMessage} </div>
+        </div>
+    </template>
+</template>

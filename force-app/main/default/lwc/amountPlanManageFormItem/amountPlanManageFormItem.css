@@ -1,0 +1,6 @@
+/**
+ * Created by MZC01-DGCHOI on 2023-11-16.
+ */
+.monthTable tbody td:nth-child(3) {
+    padding-left:10px;
+}

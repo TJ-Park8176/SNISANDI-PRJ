@@ -1,0 +1,141 @@
+/**
+ * Created by MZC01-DGCHOI on 2023-12-08.
+ * TestCode : BizPlanCopy_ba_Test
+ */
+
+@IsTest
+public with sharing class BizPlanCopy_ba_Test {
+
+    @TestSetup
+    static void makeData() {
+        WBSandCC__c wbs = new WBSandCC__c();
+        wbs.Name = 'testWBS';
+        wbs.WBS_Code__c = 'F00001';
+        wbs.Check_WBS_CC_ZF__c = 'WBS';
+        wbs.AccountSubjectSort__c = '용';
+        insert wbs;
+
+        WBSandCC__c zf = new WBSandCC__c();
+        zf.Name = 'ZF';
+        zf.WBS_Code__c = 'ZF00001';
+        zf.Check_WBS_CC_ZF__c = 'ZF';
+        zf.WBSType__c = 'FM운영';
+        zf.WBSType2__c = 'ZF수주';
+        zf.Business_Management__c = true;
+        zf.TrackingHeadQuarters__c = '지역미배정';
+        insert zf;
+
+        WBSandCC__c newWBS = new WBSandCC__c();
+        newWBS.Name = 'newWBS';
+        newWBS.WBS_Code__c = 'F00002';
+        newWBS.Check_WBS_CC_ZF__c = 'WBS';
+        insert newWBS;
+
+        ItemManagement_Plan__c itemMng = new ItemManagement_Plan__c();
+        itemMng.Name = '아이템관리';
+        itemMng.WBS_CC__c = wbs.Id;
+        itemMng.BaseYear__c = '2024';
+        insert itemMng;
+
+        //계정과목
+        Set<String> upperSet = new Set<String> {'매출액', '총매출원가', '판매비와관리비'};
+
+        List<AccountSubject__c> accSubList = new List<AccountSubject__c>();
+
+        for(String upper : upperSet) {
+            AccountSubject__c accSub = new AccountSubject__c();
+            accSub.Name = '매출액';
+            accSub.UpperSort__c = '매출액';
+            accSub.AccountSubjectsort__c = '용';
+            accSubList.add(accSub);
+        }
+        insert accSubList;
+
+
+        List<Amount_plan__c> amountList = new List<Amount_plan__c>();
+        List<Cost_Plan__c> costList = new List<Cost_Plan__c>();
+        //List<ProfitandLoss__c> proList = new List<ProfitandLoss__c>();
+        List<Opportunity_plan__c> opptyList = new List<Opportunity_plan__c>();
+        List<opportunity_amount_plan__c> opptyAmountList = new List<opportunity_amount_plan__c>();
+
+        for(Integer i=1; i<=12; i++) {
+            Amount_plan__c a = new Amount_plan__c();
+            a.Name = '매출 TEST';
+            a.WBS__c = wbs.Id;
+            a.ItemManagement_Plan__c = itemMng.Id;
+            a.AccountSubjectselect__c = accSubList[0].Id;
+            a.calculateDate__c = Date.newInstance(Date.today().year()+1, i, 1);
+            a.Itemmanagementcheck__c = true;
+            amountList.add(a);
+
+            Cost_Plan__c c = new Cost_Plan__c();
+            c.Name = '매입 TEST';
+            c.WBS__c = wbs.Id;
+            c.ItemManagement_Plan__c = itemMng.Id;
+            c.AccountSubjectselect__c = accSubList[0].Id;
+            c.CalculateDate__c = Date.newInstance(Date.today().year()+1, i, 1);
+            c.Itemmanagementcheck__c = true;
+            costList.add(c);
+
+//            ProfitandLoss__c p = new ProfitandLoss__c();
+//            p.ProfitandLoss_Type__c = '매출총이익1';
+//            p.Name = '손익현황 TEST';
+//            p.WBS__c = wbs.Id;
+//            p.Calculate_month__c = Date.newInstance(Date.today().year(), i, 1);
+//            proList.add(p);
+
+            Opportunity_plan__c o = new Opportunity_plan__c();
+            o.Name = '수주 TEST';
+            o.General_p__c = '사업총괄';
+            o.RecordTypeId = Schema.SObjectType.Opportunity_plan__c.getRecordTypeInfosByName().get('FM수주').getRecordTypeId();
+            o.WBS_CC__c = zf.Id;
+            o.Possibility_of_closed_won__c = '높음';
+            o.StageName__c = '잠재고객';
+            o.Type2__c = '단일';
+            o.Status__c = '신규';
+            o.Expect_date_of_closed__c = Date.newInstance(Date.today().year(), i, 1);
+            o.contract_closingdate__c = Date.newInstance(Date.today().year(), i, 1);
+            o.CloseDate__c = Date.newInstance(Date.today().year(), i, 1);
+            o.BaseYear__c = '2024';
+            o.Plan_GrossProfit_Percent__c = 20;
+            opptyList.add(o);
+        }
+
+        insert amountList;
+        insert costList;
+        //insert proList;
+        insert opptyList;
+
+        for(Opportunity_plan__c oppty : opptyList) {
+            for(Integer i=1; i<=12; i++) {
+                opportunity_amount_plan__c amt = new opportunity_amount_plan__c();
+                amt.Opportunityplan_name__c = oppty.Id;
+                amt.Name = i+1 + '월_' + oppty.Name + '_accountName';
+                amt.CalculateDate__c = Date.newInstance(Date.today().year()+1, i, 1);
+                amt.Monthly_amount__c = 100;
+                amt.OpportunityCheck__c = true;
+
+                opptyAmountList.add(amt);
+            }
+        }
+        insert opptyAmountList;
+
+        //손익
+        ProfitandLoss_Plan__c pp = new ProfitandLoss_Plan__c();
+        pp.WBS__c = wbs.Id;
+        pp.AccountSubjectselect__c = accSubList[0].Id;
+        pp.ProfitandLoss_Type__c = '매출총이익1';
+        pp.Name = '사업계획(손익) TEST';
+        pp.BaseYear__c = '2024';
+        insert pp;
+    }
+
+    @IsTest
+    static void test() {
+        Test.startTest();
+
+        ct_BizPlanCopy.copyRecord('2024');
+
+        Test.stopTest();
+    }
+}

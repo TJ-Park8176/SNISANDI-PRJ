@@ -1,0 +1,67 @@
+/**
+ * Created by MZC01-DGCHOI on 2024-03-07.
+ */
+
+.summary-container {
+    width: 100%;
+    display: flex;
+    padding: 30px;
+}
+
+.summary-body {
+    flex:1;
+    text-align: center;
+    padding:30px;
+}
+
+.summary-body-text {
+    font-weight: bold;
+}
+
+.summary-body-text-sum {
+    margin-top: 30px;
+}
+
+.rating-container {
+    display: inline-block;
+    width: 43px;
+    margin-bottom:5px;
+}
+
+.avgRating {
+    font-size: 44px;
+}
+
+.rating-bar {
+    height: 100px;
+    width: 8px;
+    background-color: #e5e5e5;
+    border-radius: 5px;
+    position:relative;
+    margin: 0 auto;
+}
+
+.rating-bar-highlight {
+    position:absolute;
+    bottom:0;
+    background-color:#EA27C2;
+    height:20px;
+    width:8px;
+    border-radius: 5px;
+}
+
+.rating-bar-percent {
+    color: #aaa;
+    position:relative;
+}
+
+.rating-bar-percent:after {
+    font-size:12px;
+    position:relative;
+    bottom:2px;
+    content:'%';
+}
+.rating-bar-rating {
+    color:#555;
+    margin-top:5px;
+}

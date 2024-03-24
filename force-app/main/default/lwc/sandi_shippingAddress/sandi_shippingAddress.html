@@ -1,0 +1,154 @@
+<template>
+    <div if:false={isSummary} class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-1 slds-p-around_small">
+            <fieldset class="slds-form-element">
+                <!--<legend class="slds-form-element__legend slds-form-element__label">배송지 선택</legend>-->
+                <div class="slds-form-element__control visual-picker-flex">
+                    <template for:each={shippingAddresses} for:item="sAddress">
+                        <div class="slds-visual-picker slds-visual-picker_medium"
+                             key={sAddress.Id}>
+                            <input
+                                type="radio"
+                                id={sAddress.Id}
+                                value={sAddress.Id}
+                                name="shipping-address"
+                                onchange={handleAddressPick}
+                                checked={sAddress.IsDefault}/>
+                            <label for={sAddress.Id}>
+                                <div class="card-size">
+                                    <span class="slds-visual-picker__figure slds-visual-picker__text card-size card-padding">
+                                        <span style="text-align: left;">
+                                            <!-- 주소 Name -->
+                                            <span class="slds-text-heading_small"
+                                                  style="padding-bottom: 8px;font-weight: bold">
+                                                {sAddress.Name}
+                                            </span>
+                                            <!-- 주소 -->
+                                            <lightning-formatted-address
+                                                street={sAddress.Address.street}
+                                                city={sAddress.Address.city}
+                                                country={sAddress.Address.country}
+                                                province={sAddress.Address.state}
+                                                postal-code={sAddress.Address.postalCode}
+                                                data-id={sAddress.Id}
+                                                disabled>
+                                            </lightning-formatted-address>
+                                            <span>
+                                                <!-- Edit Address -->
+                                                <button
+                                                    class="slds-button"
+                                                    aria-disabled="false"
+                                                    type="button"
+                                                    value=""
+                                                    aria-label="Edit Address"
+                                                    part="button" kx-scope="button" kx-type="underline">
+                                                    Edit Address
+                                                </button>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </div>
+                                <span class="slds-icon_container slds-visual-picker__text-check">
+                                    <svg class="slds-icon slds-icon-text-check slds-icon_x-small" aria-hidden="true">
+                                    </svg>
+                                </span>
+                            </label>
+                        </div>
+                    </template>
+                </div>
+            </fieldset>
+            <div if:false={isNewAddress} class="slds-m-top_small">
+                <lightning-button
+                        variant="brand"
+                        label="배송지 추가"
+                        title="배송지 추가"
+                        onclick={createNewAddress}>
+                </lightning-button>
+            </div>
+            <label if:true={showError} class="slds-text-color_error slds-m-top_small">
+                Error: {error}
+            </label>
+        </div>
+        <div if:true={isNewAddress} class="address-container">
+            <!-- New Address 모달 -->
+            <iframe
+                    src={visualforceSrc}
+                    height="0"
+                    width="100%"
+                    frameborder="0"
+                    onload={onLoad}
+                    sandbox="allow-same-origin allow-popups allow-scripts allow-forms allow-modals">
+            </iframe>
+
+            <legend class="slds-form-element__legend slds-form-element__label">배송지 추가</legend>
+            <lightning-input
+                    type="text"
+                    label="Address name"
+                    name="Address name"
+                    variant="label-hidden"
+                    placeholder="새 주소 이름"
+                    value={addressName}
+                    onchange={handleAddressName}>
+            </lightning-input>
+
+            <div class="custom-item_layout">
+                <lightning-input
+                        type="text"
+                        label="Address porstal"
+                        name="Address postal"
+                        variant="label-hidden"
+                        disabled="true"
+                        value={postalCode}
+                        class="js-address-postal">
+                </lightning-input>
+
+                <a href="javascript:void(0)" onclick={searchAddress} data-type="Address">우편번호 찾기</a>
+            </div>
+
+            <lightning-input
+                    type="text"
+                    label="Address"
+                    name="Address"
+                    variant="label-hidden"
+                    disabled="true"
+                    value={fullAddress}
+                    class="js-address">
+            </lightning-input>
+
+            <lightning-input
+                    type="text"
+                    label="Address detail"
+                    name="Address detail"
+                    variant="label-hidden"
+                    placeholder="상세주소 입력"
+                    value={addressDetail}
+                    onchange={handleAddressDetailChange}
+                    class="js-address-detail">
+            </lightning-input>
+
+            <lightning-button
+                    label="Save Address"
+                    onclick={addAddress}>
+            </lightning-button>
+
+            <lightning-button
+                    variant="brand"
+                    label="Close"
+                    title="Close"
+                    onclick={handleNewAddressClose}>
+            </lightning-button>
+        </div>
+    </div>
+    <div if:true={isSummary}>
+        <div class="slds-col slds-size_1-of-3 slds-p-around_small">
+            <lightning-card title={shippingAddress.name} class="slds-m-bottom_small">
+                <div class="slds-p-horizontal_small">
+                    <template if:true={shippingAddress.firstName}>{shippingAddress.firstName} {shippingAddress.lastName}<br /></template>
+                    {shippingAddress.address.street}<br />
+                    {shippingAddress.address.city}, {shippingAddress.address.state}
+                    {shippingAddress.address.postalCode}, {shippingAddress.address.country}<br />
+                </div>
+            </lightning-card>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,128 @@
+<!--
+  @description       : 
+  @author            : heoyeonu@mz.co.kr
+  @group             : 
+  @last modified on  : 2024-03-22
+  @last modified by  : heoyeonu@mz.co.kr
+-->
+<template>
+    <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-horizontal_none">
+        <lightning-layout>
+            <lightning-layout-item size="auto" padding="around-small">
+                <lightning-combobox
+                        name="progress"
+                        label="Status"
+                        value={statuscomboboxvalue}
+                        options={statusoptions}
+                        onchange={handleChange}
+                ></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item size="auto" padding="around-small">
+                <lightning-input type="date" data-my-id="startDate" name="startDate" label="주문일자" value={startdatevalue}  onchange={handleStartDateChange}></lightning-input> 
+            </lightning-layout-item>
+            <lightning-layout-item size="auto" padding="around-small">
+                <lightning-input type="date" variant="label-hidden" data-my-id="endDate" name="endDate" label="" value={enddatevalue} onchange={handleEndDateChange}>></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="auto" padding="around-small">
+                <lightning-button-group >
+                    <lightning-button label="오늘" onclick={selectToday}></lightning-button>
+                    <lightning-button label="1 주" onclick={selectWeekend}></lightning-button>
+                    <lightning-button label="1 개월" onclick={selectMonth}></lightning-button>
+                    <lightning-button label="3 개월" onclick={select3Month}></lightning-button>
+                    <lightning-button label="전체" onclick={selectTotal}></lightning-button>
+                </lightning-button-group>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout >
+            <lightning-layout-item size="auto" padding="around-small">
+                <lightning-combobox
+                    name="search"
+                    label="조건 검색"
+                    value={searchvalue}
+                    options={searchoptions}
+                    onchange={handlesearchChange}
+                ></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item size="4" padding="around-small">
+                <div onkeyup={handleKeyUp}>
+                    <lightning-input
+                        name="enter-search"
+                        type="search"
+                        data-my-id="searchid"
+                        value={searchcontentvalue}
+                        onchange={handlesearchcontentChange}
+                        placeholder="다중 검색을 지원합니다. 쉼표로 구분하세요"
+                    ></lightning-input>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="auto" padding="around-small">
+                <lightning-button label="검색" onclick={handleSearch}></lightning-button>
+            </lightning-layout-item>
+            <lightning-layout-item size="auto" padding="around-small">
+                <lightning-button label="초기화" onclick={handleReset}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+
+    <lightning-layout >
+        <lightning-layout-item size="auto" padding="around-small">
+            주문 목록(총 {datalength} 개)
+        </lightning-layout-item>
+
+        <lightning-layout-item size="auto" padding="around-small">
+            <lightning-button-group>
+                <lightning-button label="접수" class="custom-button" data-value="Assigned" onclick={handleChangeStatus}  disabled={checkRecord}></lightning-button>
+                <lightning-button label="거절" class="custom-button" data-value="Rejected" onclick={handleChangeStatus} disabled={checkRecord}></lightning-button>
+                <lightning-button label="배송중" class="custom-button" data-value="Fulfilled" onclick={handleChangeStatus} disabled={checkRecord}></lightning-button>
+                <lightning-button label="배송완료" class="custom-button" data-value="Delivery Completed" onclick={handleChangeStatus} disabled={checkRecord}></lightning-button>
+                <lightning-button label="Excel 다운" class="custom-button" onclick={handleExcelExport} disabled={checkRecord}></lightning-button>
+            </lightning-button-group>
+        </lightning-layout-item>
+    </lightning-layout>
+
+
+    <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none recordDataBody">
+        <lightning-layout>
+            <lightning-layout-item size="12" flexibility="auto" padding="around-small" style="height: 420px;">
+                <template if:true={isSpinner}>
+                    <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                </template>
+                    <lightning-datatable key-field="orderId"
+                                         data={data}
+                                         columns={columns}
+                                         onrowselection={handleSelectedRow}
+                                         min-column-width="60"
+                                         class="slds-max-medium-table_stacked record_table"
+                                         onrowaction={handleRowAction}
+                                        >
+                                        
+                    </lightning-datatable>
+
+                    <template if:false={isDataLength}>
+                        <div class="m-no-data" style="text-align: center;">
+                            no data
+                        </div>
+                    </template>
+                    
+                    <template if:true={showModal}>
+                        <div class="slds-backdrop slds-backdrop_open"></div>
+                        <div role="dialog" tabindex="-1" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_small">
+                            <div class="slds-modal__container">
+                                <header class="slds-modal__header">
+                                    <h2 class="slds-text-heading_medium slds-hyphenate">상태 변경 확인</h2>
+                                </header>
+                                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                    <p>{buttonLabel} 상태를 선택하셨습니다. 선택하신대로 처리하시겠습니까?</p>
+                                </div>
+                                <footer class="slds-modal__footer">
+                                    <button class="slds-button slds-button_neutral" onclick={handleCloseModal}>취소</button>
+                                    <button class="slds-button slds-button_brand" onclick={handleConfirmModal}>확인</button>
+                                </footer>
+                            </div>
+                        </div>
+                    </template>
+
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template>

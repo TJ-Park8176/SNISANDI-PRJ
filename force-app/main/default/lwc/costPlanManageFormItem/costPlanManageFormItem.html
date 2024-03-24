@@ -1,0 +1,179 @@
+<!--
+  @description       : 
+  @author            : jisoolee@mz.co.kr
+  @group             : 
+  @last modified on  : 2023-10-11
+  @last modified by  : dgchoi@mz.co.kr
+-->
+
+<!-- Cost Plan Manage Form Item -->
+<template>
+    <div>
+        <div class="slds-modal__header">
+            <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">사업계획 매입 등록 및 편집</h1>
+        </div>
+
+        <div class="slds-modal__content slds-p-around_medium">
+
+            <lightning-record-edit-form
+                object-api-name="Cost_Plan__c">
+
+                <lightning-accordion
+                        class="accordion-container"
+                        allow-multiple-sections-open
+                        active-section-name={activeSection}>
+                    <template if:true={showCostList}>
+                        <template for:each={costList} for:item="costSection" for:index="index">
+                            <div key={costSection.cno}>
+
+                                <lightning-accordion-section class="accordion" name={index} label={costSection.subjectName}>
+                                    <lightning-button-menu
+                                            data-index={index}
+                                            slot="actions"
+                                            alternative-text="Show menu"
+                                            icon-size="medium"
+                                            menu-alignment="auto"
+                                            icon-name="utility:settings"
+                                            onselect={handleOnSelect}>
+
+                                        <lightning-menu-item
+                                                value="Delete"
+                                                label="삭제">
+                                        </lightning-menu-item>
+                                    </lightning-button-menu>
+                                    <div class="infoBox" >
+                                        <div class="infoBox-left">
+                                            <lightning-input-field
+                                                    class="input-item"
+                                                    field-name="ItemManagement_Plan__c"
+                                                    data-name="ItemManagement_Plan"
+                                                    value={itemField} disabled>
+                                            </lightning-input-field>
+                                            <lightning-input-field
+                                                    class="input-item"
+                                                    field-name="AccountSubjectsort__c"
+                                                    data-name="AccountSubjectsort"
+                                                    value={AccountSubjectsortField} disabled>
+                                            </lightning-input-field>
+                                        </div>
+
+                                        <div class="infoBox-right">
+                                            <lightning-input-field
+                                                    class="input-wbs"
+                                                    field-name="WBS__c"
+                                                    data-name="wbs"
+                                                    value={wbsField} disabled>
+                                            </lightning-input-field>
+
+                                            <div style="margin:0 4px;display:flex">
+                                                <label class="lookupLabel">계정 과목 선택</label>
+                                                <c-custom-lookup
+                                                        data-index={index}
+                                                        class="input-subject lookupInput"
+                                                        obj-name="AccountSubject__c"
+                                                        search-placeholder="Search 계정 과목..."
+                                                        icon-name="custom:custom42"
+                                                        filter={AccountSubjectsortField}
+                                                        is-value-selected={costSection.isSaved}
+                                                        is-saved={costSection.isSaved}
+                                                        data-id={costSection.subjectId}
+                                                        value={costSection.subjectId}
+                                                        selected-name={costSection.subjectName}
+                                                        onlookupselected={handleChangeSubject}>
+                                                </c-custom-lookup>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr/>
+
+                                    <table class="monthTable">
+                                        <thead>
+                                            <tr>
+                                                <th style="padding:0 0 0 24px;color:#0E4C8C;">소계</th>
+                                                <template if:true={showAmountItem}>
+                                                    <th>
+                                                        <lightning-input class="input-amount totalSum"
+                                                                         type="number"
+                                                                         formatter="currency"
+                                                                         disabled value={total}
+                                                                         data-index={index}
+                                                                         read-only="true">
+                                                        </lightning-input>
+                                                    </th>
+                                                </template>
+                                                <th style="padding-left: 10px;">
+                                                    <lightning-input class="input-cost totalSum"
+                                                                     type="number"
+                                                                     formatter="currency"
+                                                                     value="0"
+                                                                     data-index={index}
+                                                                     read-only="true"
+                                                                     disabled>
+                                                    </lightning-input>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:70px;text-align:center;">정산 월</th>
+                                                <template if:true={showAmountItem}>
+                                                    <th style="text-algin:left;width:41%">금액(매출)</th>
+                                                </template>
+                                                <th style="text-algin:left;padding-left:10px;">금액(매입)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <template for:each={costSection.data} for:item="cost">
+                                                <tr key={cost.cno}>
+                                                    <td style="width:50px;text-align:center;">{cost.cno}월</td>
+                                                    <template if:true={showAmountItem}>
+                                                        <td>
+                                                            <lightning-input
+                                                                    class="input-amount"
+                                                                    step="1"
+                                                                    type="number"
+                                                                    formatter="currency"
+                                                                    variant="label-hidden"
+                                                                    data-index={index}
+                                                                    value={cost.amountPrice} disabled>
+                                                            </lightning-input>
+                                                        </td>
+                                                    </template>
+                                                    <td style="padding-left:10px;">
+                                                        <lightning-input
+                                                                class="input-price input-price-cost"
+                                                                step="1"
+                                                                type="number"
+                                                                formatter="currency"
+                                                                variant="label-hidden"
+                                                                onblur={handleBlur}
+                                                                data-index={index}
+                                                                data-saved-value={cost.data.savedAmount}
+                                                                value={cost.data.PlanPurchaseAmount__c}>
+                                                        </lightning-input>
+                                                    </td>
+                                                </tr>
+                                        </template>
+
+                                        </tbody>
+                                    </table>
+
+                                </lightning-accordion-section>
+                            </div>
+                        </template>
+                    </template>
+
+
+                </lightning-accordion>
+
+            </lightning-record-edit-form>
+
+            <lightning-button-icon class="plusBtn" icon-name="utility:add" alternative-text="add" title="add" onclick={addTemplate}>추가</lightning-button-icon>
+        </div>
+
+        <div class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick={closeAction}>취소</button>
+            <button class="slds-button slds-button_brand" onclick={handleClick}>등록</button>
+        </div>
+    </div>
+</template>

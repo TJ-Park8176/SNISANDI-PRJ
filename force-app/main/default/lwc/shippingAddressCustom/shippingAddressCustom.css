@@ -1,0 +1,19 @@
+iframe {
+    border:none;
+    min-height:245px;
+}
+
+lightning-quick-action-panel {
+    font-size:15px;
+    font-weight:bold;
+}
+
+label {
+    font-size: 14px;
+}
+/* iframe.LARGE, iframe.MIDDLE {
+    min-height:190px;
+}
+iframe.SMALL {
+    min-height:327px;
+} */

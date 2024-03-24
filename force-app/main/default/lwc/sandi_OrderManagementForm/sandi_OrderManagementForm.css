@@ -1,0 +1,87 @@
+.confirmedOrderListCls {
+    height: 300px;
+}
+
+.errorMessageCls {
+    text-align: center;
+    font-size: x-large;
+    font-weight: bold;
+    padding: 50px 10px 20px 10px;
+}
+
+.guideMessageCls {
+    text-align: center;
+    font-weight: bold;
+    padding: 10px 10px 20px 10px;
+}
+
+.inputQuantityCls {
+    position: relative;
+    display: block;
+    bottom: 8px;
+}
+
+.inputReasonCls {
+    position: relative;
+    display: block;
+    bottom: 8px;
+    z-index: 1 !important;
+}
+
+.finalInputQuantityCls {
+    position: relative;
+    display: block;
+    bottom: 8px;
+}
+
+.finalInputReasonCls {
+    position: relative;
+    display: block;
+    bottom: 8px;
+}
+
+.instructionCls {
+    margin: 0 16px 10px 16px;
+    padding: 10px 10px 10px 10px;
+    border: solid 1px #c9c9c9;
+}
+
+table {
+    width: 100%;
+    border-top: 1px solid #c9c9c9;
+    border-collapse: collapse;
+}
+
+th, td {
+    border-bottom: 1px solid #c9c9c9;
+    padding: 10px;
+}
+
+th:first-child, td:first-child {
+    border-left: none;
+}
+
+.amountInfoCls table thead { 
+    float:left; 
+}
+
+.amountInfoCls table thead tr, 
+.amountInfoCls table thead tr th { 
+    display: block; 
+    /* border-bottom: none; */
+}
+
+.amountInfoCls table tbody { 
+    display: block; 
+    overflow-x: hide; 
+    white-space: nowrap; 
+}
+
+.amountInfoCls table tbody tr { 
+    display:inline-block; 
+}
+
+.amountInfoCls table tbody tr td { 
+    display: block;
+    /* border-bottom: none; */
+}

@@ -1,0 +1,127 @@
+<!--
+  @description       : 
+  @author            : sungho.jo@mz.co.kr
+  @group             : 
+  @last modified on  : 2024-03-21
+  @last modified by  : sungho.jo@mz.co.kr
+-->
+<apex:page >
+    <html>
+        <apex:includeScript value="{!$Resource.NICEPAY_PGWEB_JS}"/>
+        <apex:includeScript value="{!$Resource.CRYPTO_JS + '/crypto-js.min.js'}"/>
+        <apex:includeScript value="{!$Resource.CRYPTO_JS + '/sha256.min.js'}"/>
+
+        <style>
+            body {
+                height:100%;
+                width:100%;
+            }
+        </style>
+
+        <script>
+            const MID = 'nictest00m';
+            const MERCHANT_KEY = '33F49GnCMS1mFYlGXisbUDzVf2ATWCl9k3R++d5hDd3Frmuos/XLx8XhXpe+LDYAbpGKZYSwtlyyLOtS/8aD7A==';
+
+            window.addEventListener('nice-pay-result', (e) => {
+                console.log(' e : ', e.detail);
+            });
+            Date.prototype.YYYYMMDDHHMMSS = function () {
+                var yyyy = this.getFullYear().toString();
+                var MM = pad(this.getMonth() + 1,2);
+                var dd = pad(this.getDate(), 2);
+                var hh = pad(this.getHours(), 2);
+                var mm = pad(this.getMinutes(), 2)
+                var ss = pad(this.getSeconds(), 2)  
+                return yyyy +  MM + dd+  hh + mm + ss;
+            };
+            
+            const pad = (number, length) => {
+                var str = '' + number;
+                while (str.length < length) { str = '0' + str;}
+                return str;
+            }
+
+            const reqPay = (e) => {
+                const ediDate  = new Date().YYYYMMDDHHMMSS();
+                const amt      = '1000';
+                const signData = CryptoJS.SHA256(ediDate + MID + amt + MERCHANT_KEY).toString();
+
+                /**
+                 * form parameters
+                ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                | GoodsName	        | 40 byte req   | 결제상품명 (euc-kr)
+                | Amt			    | 12 byte req   | 금액 (Only number)
+                | MID			    | 10 byte req   | 상점아이디 ex)nicepay00m
+                | EdiDate		    | 30 byte req   | 요청 시간 (YYYYMMDDHHMISS)
+                | Moid		        | 64 byte req   | 상품주문번호
+                | SignData	        | 500 byte req  | hex(sha256(EdiDate + MID + Amt + MerchantKey)) , 위변조 검증 데이터
+                | PayMethod	        | 10 byte req   | CARD : 신용카드, BANK : 계좌이체, VBANK : 가상계좌, CELLPHONE : 휴대폰결제
+                | ReturnURL	        | 500 byte	    | 모바일 필수 요청 응답 URL (절대 경로)
+                | BuyerName	        | 30 byte 	    | 구매자명 (euc-kr)
+                | BuyerTel	        | 20 byte 	    | 구매자연락처 (Only number)
+                | ReqReserved	    | 500 byte 	    | 가맹점 여분 필드  // sf 키 값보내면 될 것 같음 - jsh
+                | BuyerEmail	    | 60 byte 	    | 구매자 메일주소
+                | CharSet		    | 12 byte 	    | 인증 응답 인코딩 (euc-kr / utf-8)
+                | VbankExpDate      | 12 byte       | 가상계좌 추가 파라미터 가상계좌입금만료일 (YYYYMMDDHHMM)
+                | GoodsCl		    | 1 byte 	    | 휴대폰 소액결제 추가 파라미터 0:컨텐츠, 1:실물
+                | ConnWithIframe	| 1 byte 	    | iframe 기반 연동 시 추가 파라미터 Y:iframe 기반 NICEPAY 인증 호출 미입력 시 일반 form 객체 전달 (iframe 기반 연동 시에만 해당 옵션 사용)
+                ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                */
+                const requiredParams = [
+                    'GoodsName', 'Amt', 'MID', 'EdiDate', 'Moid', 'SignData', 'PayMethod', 'ReqReserved', 'CharSet'
+                ];
+
+                const requiredTestValue = {
+                    'GoodsName' : '얼몽'
+                    , 'Amt' : '1000'
+                    , 'MID' : MID
+                    , 'EdiDate' : ediDate
+                    , 'Moid' : self.crypto.randomUUID()
+                    , 'SignData' : signData
+                    , 'PayMethod' : 'CARD'
+                    , 'ReqReserved' : self.crypto.randomUUID() //임시
+                    , 'CharSet' : 'utf-8'
+                }
+
+                const formParams = [
+                    "GoodsName"
+                    , "Amt"
+                    , "MID"
+                    , "EdiDate"
+                    , "Moid"
+                    , "SignData"
+                    , "PayMethod"
+                    , "ReturnURL"
+                    , "BuyerName"
+                    , "BuyerTel"
+                    , "ReqReserved"
+                    , "BuyerEmail"
+                    , "CharSet"
+                    , "VbankExpDate"
+                    , "GoodsCl"
+                    , "ConnWithIframe"
+                ]
+                var payForm = document.createElement('form');
+                payForm.setAttribute('method'         , 'post');
+                payForm.setAttribute('accept-charset' , 'euc-kr');
+                payForm.setAttribute('name'           , 'payForm');
+                for (const el of formParams) {
+                    let value = requiredTestValue.hasOwnProperty(el) ? requiredTestValue[el] : null;
+                    if(value){
+                        var input   = document.createElement('input');
+                        input.type  = 'hidden';
+                        input.name  = el;
+                        input.id    = el;
+                        input.value =  value;
+                        payForm.appendChild(input);
+                    }
+                }
+                document.body.appendChild(payForm);
+                nicepay.goPay(payForm);
+            }
+        </script>
+        <body>
+            <button onclick="reqPay();">멋진결제테스트</button>
+        </body>        
+    </html>
+</apex:page>

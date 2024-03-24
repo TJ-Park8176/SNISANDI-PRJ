@@ -1,0 +1,9 @@
+/**
+ * Created by MZC01-DGCHOI on 2024-01-31.
+ */
+
+.imageArea img:hover {
+    filter:grayscale(100%);
+    -webkit-filter:grayscale(100%);
+    box-shadow: 3px 10px 20px rgba(0,0,0,0.19), 3px 6px 6px rgba(0,0,0,0.23);
+}

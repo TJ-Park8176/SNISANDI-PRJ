@@ -1,0 +1,51 @@
+<template>
+    <lightning-modal-header label="상세내역"></lightning-modal-header>
+    <lightning-modal-body> 
+        <section class="detail_header detail_section">
+            <dl>
+                <dt>상품</dt>
+                <dd>중소형 빌딩자산관리(12개월)</dd>
+            </dl>
+            <dl>
+                <dt>금액</dt>
+                <dd>20,000,000</dd>
+            </dl>
+        </section>    
+
+        <section class="detail_section">
+            <lightning-tabset>
+                <lightning-tab label="세부산출내역">
+                    <div>
+                        <ul class="detail_list">
+                            <li class="item">
+                                <div class="item_layout">
+                                    <span class="ico-file">아이콘</span>
+                                    <p class="text-overflow">파일이름</p>
+                                    <p class="text-overflow">생성일</p>
+                                    <a href="javascript:void(0)">
+                                        <span class="ico-download">다운로드</span>
+                                    </a>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="item_layout">
+                                    <span class="ico-file">아이콘</span>
+                                    <p class="text-overflow">파일이름</p>
+                                    <p class="text-overflow">생성일</p>
+                                    <a href="javascript:void(0)">
+                                        <span class="ico-download">다운로드</span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </lightning-tab>
+            </lightning-tabset>
+        </section>
+    
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button label="확인" onclick={handleClose}></lightning-button>
+    </lightning-modal-footer>
+</template>

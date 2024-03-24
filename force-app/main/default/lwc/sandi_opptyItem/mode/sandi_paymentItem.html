@@ -1,0 +1,121 @@
+<template>
+    <details>
+        <summary>
+            <div class="summary_wrap">
+                <span class="mark">
+                    <lightning-icon icon-name="utility:chevrondown" 
+                    alternative-text="chevrondown" 
+                    title="chevrondown"
+                    size="x-small"></lightning-icon>
+                </span>
+                <dl>
+                    <dt>수주코드</dt>
+                    <dd class="text-overflow">P0001225</dd>
+                </dl>
+                <dl>
+                    <dt>문의일자</dt>
+                    <dd class="text-overflow">2024-03-07</dd>
+                </dl>
+                <dl>
+                    <dt>상태</dt>
+                    <dd class="text-overflow">견적</dd>
+                </dl>
+                <dl>
+                    <dt>담당자</dt>
+                    <dd class="text-overflow">김샌디</dd>
+                </dl>
+            </div>
+        </summary>
+        <div class="summary_content">
+            <section class="summary_section">
+                <table>
+                    <colgroup>
+                        <col width="50%"/>
+                        <col width="10%" />
+                        <col width="10%" />
+                        <col width="10%" />
+                        <col width="10%" />
+                        <col width="10%" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>상품</th>
+                            <th>상태</th>
+                            <th>수량</th>
+                            <th>단가</th>
+                            <th>금액</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>
+                                    <a href="javascript:void(0)" onclick={handleDetail} class="text-overflow">중소형 빌딩자산관리(12개월)</a>
+                                    
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-overflow">
+                                    견적완료
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-overflow">
+                                    1
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-overflow">
+                                    20,000,000
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-overflow">
+                                    20,000,000
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <lightning-button variant="brand-outline" label="카트담기" onclick={handleAddToCart}></lightning-button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="text-overflow">
+                                    중소형 빌딩자산관리(12개월)
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-overflow">
+                                    견적완료
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-overflow">
+                                    1
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-overflow">
+                                    20,000,000
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-overflow">
+                                    20,000,000
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <lightning-button variant="brand-outline" label="카트담기" onclick={handleAddToCart}></lightning-button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </details>
+</template>

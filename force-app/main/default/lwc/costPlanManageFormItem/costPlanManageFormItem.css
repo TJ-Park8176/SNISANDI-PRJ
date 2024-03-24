@@ -1,0 +1,70 @@
+/**
+ * Created by MZC01-DGCHOI on 2023-10-06.
+ */
+
+.infoBox {
+    position:relative;
+}
+
+.infoBox-left {
+    display:inline-block;
+    width:50%;
+    padding-right:10px;
+}
+
+.infoBox-right {
+    display:inline-block;
+    width:50%;
+    padding-left:10px;
+    position:absolute;
+    top:0;
+}
+
+.accordion .slds-accordion__summary-content{
+    background-color:#F3F3F3;
+}
+
+.inline-block {
+    display:inline-block;
+}
+
+.lookupLabel {
+    font-size:12px;
+    color:#444;
+    width:210px;
+}
+
+.lookupInput {
+    width:100%;
+}
+
+.totalSum {
+    bottom: 10px;
+}
+/*
+.sum{
+    width: 63px;
+}
+
+.thTotalSum{
+    max-width: 331px;
+    width: 43%;
+}
+
+.thCostTotalSum{
+    max-width: 384px;
+    width: 49%;
+}
+
+
+.totalCost{
+    bottom: 19px;
+    max-width: 378.73px;
+    min-width: 170.17px;
+    width: 100%;
+}
+
+.slds-input{
+    padding-left: 10px !important;
+}
+*/

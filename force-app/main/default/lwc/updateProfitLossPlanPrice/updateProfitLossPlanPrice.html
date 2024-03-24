@@ -1,0 +1,21 @@
+<!-- Update ProfitLoss Plan Price -->
+<template>
+    <lightning-quick-action-panel title="사업계획(손익) 계산" class="uploadModal">
+        <div class="slds-align_absolute-center slds-text-heading_medium">
+            <div>
+                <lightning-select name="baseYearSelect" label="사업계획 기준년도 선택" value={value} options={options}
+                    onchange={handleChange}>
+                </lightning-select>
+            </div>
+            <div class="question-message">사업계획(손익)을 계산하시겠습니까?</div>
+        </div>
+        <div slot="footer">
+            <lightning-button variant="brand" label="계산하기" onclick={updatePlanPrice}></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+
+    <div class="noticeBox" style="visibility:hidden">
+        <div class="slds-align_absolute-center slds-text-heading_medium"> {noticeMessage} </div>
+    </div>
+
+</template>

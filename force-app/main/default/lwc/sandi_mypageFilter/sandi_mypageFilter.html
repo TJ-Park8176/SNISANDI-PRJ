@@ -1,0 +1,48 @@
+<template>
+    <section class="filter" lwc:if={isLoaed}>
+        <ul>
+            <li>
+                <lightning-combobox
+                    name="progress"
+                    label="State"
+                    value={value}
+                    placeholder="Select Progress"
+                    options={stateOption}
+                    onchange={handleState} ></lightning-combobox>
+            </li>
+            <li class="horizontal_layout">
+                <lightning-input type="date" 
+                    name="start"  
+                    label="시작일"
+                    value={startDate}
+                    max={startMax}
+                    class="start-date"
+                    placeholder="선택"
+                    onchange={handleDate}></lightning-input>
+
+                    <span class="connector">~</span>
+
+                    <lightning-input type="date" 
+                    label="종료일"
+                    name="end" 
+                    value={endDate}
+                    min={endMin}
+                    class="end-date"
+                    placeholder="선택"
+                    onchange={handleDate}></lightning-input>
+            </li>
+            <li>
+                <lightning-button-group>
+                    <lightning-button label="오늘" onclick={shotcutDate} name="today"></lightning-button>
+                    <lightning-button label="1주" onclick={shotcutDate} name="week"></lightning-button>
+                    <lightning-button label="1개월" onclick={shotcutDate} name="1month"></lightning-button>
+                    <lightning-button label="3개월" onclick={shotcutDate} name="3month"></lightning-button>
+                    <lightning-button label="전체" onclick={shotcutDate} name="all"></lightning-button>
+                </lightning-button-group>
+            </li>
+            
+        </ul>
+
+        <lightning-button label="검색" variant="brand" class="search_btn" disabled={isDisabledSearchBtn} onclick={handleSearch}></lightning-button>
+    </section>
+</template>

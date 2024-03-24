@@ -1,0 +1,97 @@
+/**
+ * Created by MZC01-DGCHOI on 2024-02-27.
+ */
+
+
+.floating_side_menu {
+    position: fixed;
+    right:0;
+    top:60%;
+    z-index: 999;
+    width:68px;
+    padding:10px;
+    background-color: #333;
+    font-size: 11px;
+    padding: 20px 0;
+    border-bottom-left-radius: 1rem;
+}
+
+.floating_side_menu_folded {
+    right:-68px !important;
+}
+
+.fm_container {
+    position:relative;
+}
+
+.fold_checkbox {
+    cursor: pointer;
+    position: absolute;
+    width: 24px;
+    height: 60px;
+    text-align: center;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    margin-left: -24px;
+    margin-top:-20px;
+    background-color: #333;
+}
+
+.fold_checkbox span{
+    position:relative;
+    top:14px;
+    color:#fff;
+    font-size: 18px;
+    padding-left: 2px;
+}
+
+.fold_menu a {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.fold_menu a:hover {
+    text-decoration: none;
+}
+
+.fold_menu a.fm_go_top {
+    margin-bottom: 0px;
+}
+
+.floating_side_menu img {
+    display: block;
+    margin: 0 auto;
+    width: 30px;
+    height: 30px;
+}
+
+.fm_text {
+    color: #fff;
+}
+
+
+
+
+
+/*
+.fm_cart .fm_icon {
+    background-image: url('');
+}
+
+.fm_wishlist .fm_icon {
+    background-image: url('');
+}
+
+.fm_recent .fm_icon {
+    background-image: url('');
+}
+
+.fm_case .fm_icon {
+    background-image: url('');
+}
+
+.fm_go_top .fm_icon {
+    background-image: url('');
+}
+*/

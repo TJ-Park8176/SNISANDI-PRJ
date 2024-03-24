@@ -1,0 +1,37 @@
+<!--
+ - Created by MZC01-DGCHOI on 2024-02-27.
+ -->
+
+<!-- Sandi Floating Menu -->
+<template>
+    <div class="floating_side_menu">
+        <div class="fm_container">
+            <div class="fold_checkbox" onclick={handleFoldCheckboxClick}>
+                <span class="fold_checkbox_text">&gt;</span>
+            </div>
+            <div class="fold_menu">
+                <a href="/cart" class="fm_cart">
+                    <img src={image_url_cart} class="fm_icon">
+                    <span>0</span>
+                    <div class="fm_text">장바구니</div>
+                </a>
+                <a href="/mylists" class="fm_wishlist">
+                    <img src={image_url_wishlist} class="fm_icon">
+                    <span>0</span>
+                    <div class="fm_text">관심상품</div>
+                </a>
+                <a href="#" class="fm_recent">
+                    <img src={image_url_recent} class="fm_icon">
+                    <div class="fm_text">최근 본 상품</div>
+                </a>
+                <a href="#" class="fm_go_top" onclick={handleGoTopButtonClick}>
+                    <img src={image_url_go_top} class="fm_icon">
+                </a>
+                <!--            <a href="/상담문의" class="fm_case">-->
+                <!--                <div class="fm_ico">아이콘</div>-->
+                <!--                <div>상담/문의</div>-->
+                <!--            </a>-->
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,103 @@
+/**
+ * Created by MZC01-DGCHOI on 2024-03-06.
+ */
+
+.search-container {
+    position: relative;
+    /*위치조정*/
+    left:18px;
+    top:1px;
+}
+
+.search-btn {
+    border-radius: 5px;
+    height: 30px;
+    width: 32px;
+    background-color: #444;
+    color:#fff;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+    cursor:pointer;
+}
+
+.search-modal {
+    position:absolute;
+    width:360px;
+    left:0;
+    top:38px;
+    background-color:#fff;
+    z-index: 10;
+    height:225px;
+    border-radius: 5px;
+    border: 1px solid #EA27C2;
+    padding: 10px;
+}
+
+.search-modal-body {
+    display: flex;
+}
+
+.search-modal-body-inner {
+    width: 48%;
+    padding:5px;
+}
+
+.search-list {
+    height: 132px;
+    padding:5px;
+}
+
+.search-list-recently {
+    overflow: auto;
+}
+
+.search-list-popular {
+    border-left: 1px solid #ddd;
+}
+
+.search-modal-footer {
+    border-top: 1px solid #ddd;
+    font-size:18px;
+    text-align:right;
+    height: 35px !important;
+    margin-top: 10px;
+    display:flex;
+    justify-content: space-between;
+}
+
+.close-btn {
+    cursor: pointer;
+}
+
+.search-list-rank {
+    font-weight: bold;
+    color: #EA27C2;
+    font-size: 14px;
+    margin-right:5px;
+    position: relative;
+    bottom:1px;
+}
+
+.search-list-term {
+    cursor: pointer;
+}
+
+.search-list-term:hover {
+    text-decoration: underline;
+    color: #EA27C2;
+}
+
+.slds-checkbox_toggle [type=checkbox]:checked+.slds-checkbox_faux_container .slds-checkbox_faux {
+    background-color: #EA27C2;
+    border-color: #EA27C2;
+}
+
+.search-list-term-delete {
+    margin-left: 5px;
+    color: #ddd;
+}
+.search-list-term-delete:hover {
+    color:#aaa;
+    font-weight: bold;
+}

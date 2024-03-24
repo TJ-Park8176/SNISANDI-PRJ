@@ -1,0 +1,26 @@
+<!--
+ - Created by MZC01-DGCHOI on 2023-09-22.
+ -->
+
+<!-- Biz Plan Copy Form -->
+<template>
+    <lightning-quick-action-panel title="사업계획(아이템관리/매출/매입/수주/수주매출/손익) 복제" class="uploadModal">
+        <div class="slds-align_absolute-center slds-text-heading_medium">
+            <div>
+                <lightning-select name="baseYearSelect" label="사업계획 기준년도 선택" value={value} options={options}
+                    onchange={handleChange}>
+                </lightning-select>
+            </div>
+            <div class="question-message">사업계획 아이템관리,매출,매입,수주,수주매출,손익을 현황에 복제하시겠습니까?</div>
+        </div>
+        <div slot="footer">
+            <!-- <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button> -->
+            <lightning-button variant="brand" label="복제" onclick={uploadRecord}></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+
+    <div class="noticeBox" style="visibility:hidden">
+        <div class="slds-align_absolute-center slds-text-heading_medium"> {noticeMessage} </div>
+    </div>
+
+</template>

@@ -1,0 +1,29 @@
+<!--
+  @description       : 
+  @author            : heoyeonu@mz.co.kr
+  @group             : 
+  @last modified on  : 2024-03-19
+  @last modified by  : heoyeonu@mz.co.kr
+-->
+<template>
+    <!-- <template lwc:if={isSpinner}>
+        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+    </template>  -->
+    <lightning-tabset variant="scoped" active-tab-value="order">
+        <lightning-tab label="주문" value="order" onactive={ordertabClick}>
+            <c-partner-c-order> </c-partner-c-order>
+        </lightning-tab>
+        <lightning-tab label="교환" value="exchange">
+          
+        </lightning-tab>
+        <lightning-tab label="반품" value="return">
+         
+        </lightning-tab>
+        <lightning-tab label="구독" value="subscribe">
+         
+        </lightning-tab>
+        <lightning-tab label="운송장 입력" value="waybill">
+         
+        </lightning-tab>
+    </lightning-tabset>
+</template>

@@ -1,0 +1,299 @@
+<template>
+    <lightning-spinner alternative-text="Loading" size="medium" lwc:if={isSpinner}></lightning-spinner>
+
+    <div class="list_wrap">
+        <lightning-record-edit-form
+            object-api-name="SANDI_Registration__c"
+            onload={loadForm}
+            onsubmit={handleOnSubmit}
+            onsuccess={handleSuccess}
+            onerror={handleError}
+            >
+
+            <div class="section_layout">
+                <section>
+
+                    <iframe
+                        src={visualforceSrc}
+                        height="0"
+                        width="100%"
+                        frameborder="0"
+                        onload={onLoad}
+                        sandbox="allow-same-origin allow-popups allow-scripts allow-forms allow-modals">
+                    </iframe>
+    
+    
+    
+                    <details open class="js-detail_basic">
+                        <summary class="summary_wrap">
+                            <span class="mark">
+                                <lightning-icon icon-name="utility:chevrondown" 
+                                alternative-text="chevrondown" 
+                                title="chevrondown"
+                                size="x-small"></lightning-icon>
+                            </span>
+                            <p>기본 정보</p>
+                        </summary>
+                        <div class="summary_content">
+                            <ul>
+                                
+                                <li>
+                                    <lightning-input-field field-name="Email__c" 
+                                    onchange={handleEmailValidation} 
+                                    required="true"
+                                    class="email-input required-target"
+                                    lwc:ref="emailInput"> </lightning-input-field>
+                                    <div>
+                                        <a href="javascript:void(0)" onclick={handleAuth} data-disabled={isDisabledAuthtBtn}>인증하기</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <lightning-input-field field-name="AccountType__c" 
+                                    class="required-target" 
+                                    required="true"
+                                    onchange={handleAccType}> </lightning-input-field>
+                                </li>
+                                
+                                <li>
+                                    <lightning-input-field field-name="LastName__c" required="true"> </lightning-input-field>
+                                </li>
+                                <li>
+                                    <lightning-input-field field-name="FirstName__c" required="true"> </lightning-input-field>
+                                </li>
+                                <li class="slds-is-relative">
+    
+                                    <lightning-combobox
+                                        name="countryCode"
+                                        label="countryCode"
+                                        variant="label-hidden"
+                                        value="+82"
+                                        options={countryCodeList}
+                                        class="country-code_input js-country-mobile"
+                                        onchange={changeCountryCode}
+                                        lwc:if={isLoadedForm}></lightning-combobox>
+    
+                                    <lightning-input-field 
+                                    field-name="MobilePhone__c" 
+                                    required="true"
+                                    class="required-target phone_input js-phone"
+                                    onchange={changeTel}> </lightning-input-field>
+                                </li>
+                                
+                            </ul>
+                            
+                            
+                        </div>
+                    </details>
+                    
+                </section>
+        
+                <section>
+                    <details style={detailStyle} class="js-detail_company">
+                        <summary class="summary_wrap">
+                            <span class="mark">
+                                <lightning-icon icon-name="utility:chevrondown" 
+                                alternative-text="chevrondown" 
+                                title="chevrondown"
+                                size="x-small"></lightning-icon>
+                            </span>
+                            <p>회사 정보</p>
+                        </summary>
+                        <div class="summary_content">
+                            <ul>
+                                <li>
+                                    <lightning-input-field field-name="Company__c" 
+                                    required={isRequiredForCompany}
+                                    onchange={checkRequired}
+                                    class="required-target"> </lightning-input-field>
+                                </li>
+                                <li>
+                                    <lightning-input-field field-name="Title__c"> </lightning-input-field>
+                                </li>
+                                <li>
+                                    <lightning-input-field field-name="RepresentativeName__c"> </lightning-input-field>
+                                </li>
+                                <li class="slds-is-relative">
+    
+                                    <lightning-combobox
+                                        name="countryCode"
+                                        label="countryCode"
+                                        variant="label-hidden"
+                                        value="+82"
+                                        options={countryCodeList}
+                                        onchange={changeCountryCode}
+                                        class="country-code_input js-country-company"></lightning-combobox>
+    
+    
+                                    <lightning-input-field field-name="CompanyPhone__c" 
+                                    required={isRequiredForCompany}
+                                    class="required-target phone_input js-phone-company"
+                                    onchange={changeTel}> </lightning-input-field>
+                                </li>
+                                <li>
+                                    <lightning-input-field field-name="BusinessRegistrationNumber__c" 
+                                    required={isRequiredForCompany}
+                                    onchange={checkRequired}
+                                    class="required-target"> </lightning-input-field>
+                                </li>
+                                <li>
+    
+                                    <div class="custom_layout">
+                                        <label>주소</label>
+                                        <div>
+                                            <div class="custom-item_layout">
+                                                <lightning-input type="text" 
+                                                label="Address porstal"
+                                                name="Address postal" 
+                                                variant="label-hidden"
+                                                disabled="true"
+                                                class="js-address-postal"></lightning-input>
+            
+                                                <a href="javascript:void(0)" onclick={searchAddress} data-type="Address">우편번호 찾기</a>
+                                            </div>
+    
+                                            <lightning-input type="text" 
+                                            label="Address"
+                                            name="Address" 
+                                            variant="label-hidden"
+                                            disabled="true"
+                                            class="js-address"></lightning-input>
+                                            
+                                            <lightning-input type="text" 
+                                            label="Address detail"
+                                            name="Address detail" 
+                                            variant="label-hidden"
+                                            placeholder="상세주소 입력"
+                                            lwc:ref="addressDetail"
+                                            class="js-address-detail"></lightning-input>
+                                        </div>
+                                    </div>
+                                    
+                                    <lightning-input-field field-name="Address__c" class="hidden_input"> </lightning-input-field>
+                                </li>
+                                <li>
+                                    <lightning-input-field field-name="BusinessType__c"> </lightning-input-field>
+                                </li>
+                                <li>
+                                    <lightning-input-field field-name="BusinessCategory__c"> </lightning-input-field>
+                                </li>
+                            </ul>
+                        </div>
+                    </details>
+                    
+                </section>
+        
+                <section>
+                    <details style={detailStyle} class="js-detail_add-info">
+                        <summary class="summary_wrap">
+                            <span class="mark">
+                                <lightning-icon icon-name="utility:chevrondown" 
+                                alternative-text="chevrondown" 
+                                title="chevrondown"
+                                size="x-small"></lightning-icon>
+                            </span>
+                            <p>추가 선택 정보</p>
+                        </summary>
+                        <div class="summary_content">
+                            <ul>
+                                <li>
+                                    <lightning-input-field field-name="Gender__c"> </lightning-input-field>
+                                </li>
+                                <li>
+                                    <lightning-input-field field-name="Birthday__c"> </lightning-input-field>
+                                </li>
+                                <li>
+                                    <div class="custom_layout">
+                                        <label>주소</label>
+                                        <div>
+                                            <div class="custom-item_layout">
+                                                <lightning-input type="text" 
+                                                label="ShippingAddress porstal"
+                                                name="ShippingAddress postal" 
+                                                variant="label-hidden"
+                                                disabled="true"
+                                                class="js-shipping-postal"></lightning-input>
+            
+                                                <a href="javascript:void(0)" onclick={searchAddress} data-type="ShippingAddress">우편번호 찾기</a>
+                                            </div>
+    
+                                            <lightning-input type="text" 
+                                            label="ShippingAddress"
+                                            name="ShippingAddress" 
+                                            variant="label-hidden"
+                                            disabled="true"
+                                            class="js-shipping"></lightning-input>
+                                            
+                                            <lightning-input type="text" 
+                                            label="ShippingAddress detail"
+                                            name="ShippingAddress detail" 
+                                            variant="label-hidden"
+                                            placeholder="상세주소 입력"
+                                            lwc:ref="shippingDetail"
+                                            class="js-shipping-detail"></lightning-input>
+                                        </div>
+                                    </div>
+    
+                                    <lightning-input-field field-name="ShippingAddress__c" class="hidden_input"> </lightning-input-field>
+                                </li>
+                                
+                                <li>
+                                    <lightning-input-field field-name="MarketingTermsAndCondition__c" required="true"> </lightning-input-field>
+                                </li>
+                                <li>
+                                    <lightning-input-field field-name="Language__c" disabled="true" value="ko"> </lightning-input-field>
+                                </li>
+                                <li>
+                                    <lightning-input-field field-name="Currency__c" disabled="true" value="KRW"> </lightning-input-field>
+                                </li>
+                                <li>
+                                    <lightning-input-field field-name="InterestedProduct__c"> </lightning-input-field>
+                                </li>
+                            </ul>
+                        </div>
+                    </details>
+                    
+                </section>
+        
+                <section>
+                    <details style={detailStyle} class="js-detail_term">
+                        <summary class="summary_wrap">
+                            <span class="mark">
+                                <lightning-icon icon-name="utility:chevrondown" 
+                                alternative-text="chevrondown" 
+                                title="chevrondown"
+                                size="x-small"></lightning-icon>
+                            </span>
+                            <p>이용약관/개인정보 취급방침</p>
+                        </summary>
+                        <div class="summary_content">
+                            <ul>
+                                <li>
+                                    <lightning-input-field field-name="Over14Years__c" class="required-target" required="true" onchange={checkRequired}> </lightning-input-field>
+                                </li>
+                                <li>
+                                    <lightning-input-field field-name="TermsOfService__c" class="required-target" required="true" onchange={checkRequired}> </lightning-input-field>
+                                </li>
+                                <li>
+                                    <lightning-input-field field-name="CollectionAndProcessing__c" class="required-target" required="true" onchange={checkRequired}> </lightning-input-field>
+                                </li>
+                                <li>
+                                    <lightning-input-field field-name="ThirdPartyProvision__c" class="required-target" required="true" onchange={checkRequired}> </lightning-input-field>
+                                </li>
+                            </ul>
+                        </div>
+                    </details>
+                    
+                </section>
+    
+                <div>
+                    <lightning-button variant="brand" label="회원가입" title="회원가입" type="submit" disabled={isDisabledRegistBtn}></lightning-button>
+                </div>
+            </div>
+            
+        </lightning-record-edit-form>
+
+        
+
+        
+    </div>
+</template>

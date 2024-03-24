@@ -1,0 +1,184 @@
+<!--
+  @description       : 
+  @author            : sungho.jo@mz.co.kr
+  @group             : 
+  @last modified on  : 2024-03-22
+  @last modified by  : sungho.jo@mz.co.kr
+-->
+<apex:page >
+    <html>
+        <header>
+            <apex:includeScript value="{!$Resource.NICEPAY_PGWEB_JS}"/>
+            <apex:includeScript value="{!$Resource.CRYPTO_JS + '/crypto-js.min.js'}"/>
+            <apex:includeScript value="{!$Resource.CRYPTO_JS + '/sha256.min.js'}"/>
+            <apex:includeScript value="/soap/ajax/36.0/connection.js"/>
+            
+            <style>
+                body {
+                    height:100%;
+                    width:100%;
+                }
+            </style>
+    
+            <script>
+                window.addEventListener('nice-pay-result', (e) => {
+                    console.log( ' e : ' , e);
+                    if(e.detail != null){
+                        console.log(' detail : ', e.detail);
+                        window.parent.postMessage({
+                            event : 'nice-pay-result'
+                            , result : JSON.parse(JSON.stringify(e.detail))
+                        },'*');
+                    }                    
+                });
+
+                const MID = 'nictest00m';
+                const MERCHANT_KEY = '33F49GnCMS1mFYlGXisbUDzVf2ATWCl9k3R++d5hDd3Frmuos/XLx8XhXpe+LDYAbpGKZYSwtlyyLOtS/8aD7A==';
+    
+                Date.prototype.YYYYMMDDHHMMSS = function () {
+                    var yyyy = this.getFullYear().toString();
+                    var MM = pad(this.getMonth() + 1,2);
+                    var dd = pad(this.getDate(), 2);
+                    var hh = pad(this.getHours(), 2);
+                    var mm = pad(this.getMinutes(), 2)
+                    var ss = pad(this.getSeconds(), 2)  
+                    return yyyy +  MM + dd+  hh + mm + ss;
+                };
+                
+                const pad = (number, length) => {
+                    var str = '' + number;
+                    while (str.length < length) { str = '0' + str;}
+                    return str;
+                }
+    
+                const reqPay = (e) => {
+                    const ediDate  = new Date().YYYYMMDDHHMMSS();
+                    const amt      = '1000';
+                    const signData = CryptoJS.SHA256(ediDate + MID + amt + MERCHANT_KEY).toString();
+    
+                    /**
+                     * form parameters
+                    ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                    // 공통
+                    | GoodsName	        | 40 byte req   | 결제상품명 (euc-kr)
+                    | Amt			    | 12 byte req   | 금액 (Only number)
+                    | MID			    | 10 byte req   | 상점아이디 ex)nicepay00m
+                    | EdiDate		    | 30 byte req   | 요청 시간 (YYYYMMDDHHMISS)
+                    | Moid		        | 64 byte req   | 상품주문번호
+                    | SignData	        | 500 byte req  | hex(sha256(EdiDate + MID + Amt + MerchantKey)) , 위변조 검증 데이터
+                    | PayMethod	        | 10 byte req   | CARD : 신용카드, BANK : 계좌이체, VBANK : 가상계좌, CELLPHONE : 휴대폰결제
+                    | ReturnURL	        | 500 byte	    | 모바일 필수 요청 응답 URL (절대 경로)
+                    | BuyerName	        | 30 byte 	    | 구매자명 (euc-kr)
+                    | BuyerTel	        | 20 byte 	    | 구매자연락처 (Only number)
+                    | ReqReserved	    | 500 byte 	    | 가맹점 여분 필드  // sf 키 값보내면 될 것 같음 - jsh
+                    | BuyerEmail	    | 60 byte 	    | 구매자 메일주소
+                    | CharSet		    | 12 byte 	    | 인증 응답 인코딩 (euc-kr / utf-8)
+                    | VbankExpDate      | 12 byte       | 가상계좌 추가 파라미터 가상계좌입금만료일 (YYYYMMDDHHMM)
+                    | GoodsCl		    | 1 byte 	    | 휴대폰 소액결제 추가 파라미터 0:컨텐츠, 1:실물
+                    | ConnWithIframe	| 1 byte 	    | iframe 기반 연동 시 추가 파라미터 Y:iframe 기반 NICEPAY 인증 호출 미입력 시 일반 form 객체 전달 (iframe 기반 연동 시에만 해당 옵션 사용)
+                    | SupplyAmt         | 12 byte       | 별도 공급가액 설정 시 사용
+                    | GoodsVat          | 12 byte       | 별도 부가세 설정 시 사용
+                    | ServiceAmt        | 12 byte       | 별도 봉사료 설정 시 사용
+                    | TaxFreeAmt        | 12 byte       | 별도 면세 금액 설정 시 사용
+                    | CurrencyCode      | 3 byte        | KRW: 원화(Default) / USD: 달러
+                    | TransType         | 1 byte        | 0: 일반거래 / 1: 에스크로 거래
+                    | Period            | 17 byte       | 결제창에 노출될 제공기간 (YYYYMMDD:YYYYMMDD)
+                    | LogoImage         | 100 byte      | 로고 이미지의 full URL 전달
+                                                          * 채널별 사이즈 (단위: pixel)
+                                                          모바일 : width 50 X height 50
+                                                          웹표준 : width 94 X height 25
+                    | NpLang            | 2 byte        | EN: 영문 / CN: 중문 / KO: 국문(Default)
+                    | MallUserID	    | 20 byte       | 상점에서 사용하는 사용자 아이디
+                    | NPDisableScroll   | 1 byte        | 결제창 스크롤 미사용 여부 (PC Only, Y: 미사용 / N(default): 사용)
+                    | WapUrl            | 500 byte      | 가맹점 독립 APP 을 이용하여 개발시 (Webview 연동, Mobile Only)
+                                                          ISP 혹은 계좌이체 연동 시 인증 완료 후 결과에 대한 focus 가
+                                                          가맹점 APP 으로 돌아오기 위해 설정하는 가맹점 APP 의
+                                                          scheme 값을 설정
+                    | IspCancelUrl      | 500 byte      | 가맹점 독립 APP을 이용하여 개발시 (Webview 연동)
+                    | SkinType          |               | 결제창 스킨 설정지원 옵션(value) : red/green/purple/gray/dark
+                    // 컵 보증금
+                    | CupDepositAmt     | 11 byte       | 컵 보증금 대상 상품에한하여 필수컵 보증금 금액 (컵 1 개당 300 원 / 예시: CupDepositAmt=300)컵 보증금 파라미터 사용 시,- 부분취소 불가.- Amt 는 컵 보증금을 포함하여 설정 (Amt = 상품금액 + 컵 보증금)- SupplyAmt, GoodsVat, ServiceAmt, TaxFreeAmt 필드 함께 사용 시
+                    // 신용카드 추가
+                    | SelectQuota       | 2 byte        | 할부개월 , 구부자로 할부개월 나열 00, 02, 03..
+                    | SelectCardCode    | 2 byte        | 특정카드사 선택옵션 - ','를 구분자로 카드코드 나열예시)SelectCardCode=02 (국민 카드만 이용할 수 있도록 제한)SelectCardCode=02,04,07(국민, 삼성, 현대 세 카드사만을 이용할 수 있도록 제한)
+                    | ShopInterest      | 1 byte        | 상점무이자 사용여부 0:미사용 1:사용 null:mid에 등록된 상점 무이자 전체 이용
+                    | QuotaInterest	    | 10 byte       | 상점무이자 카드 정보, 기준정보에 등록된 무이자 중 사용할 정보 설정- ShopInterest=1 인 경우 적용됨 - '|'를 구분자로 하여 카드코드 나열 - ':'를 구분자로 하여 카드코드와 할부개월 구분 FORMAT  - CardCode:할부개월,할부개월|CardCode:할부개월,할부개월예시) - 무이자정보 : 01:06,07|02:06,07 설명) 비씨카드 6,7개월 무이자와 국민카드 6,7개월 무이자 사용 설정
+                    // 가상계좌 추가
+                    | VbankExpDate      | 12 byte       | 가상계좌 추가 파라미터 가상계좌입금만료일 (YYYYMMDDHHMM)
+                    //휴대폰 소액결제 추가
+                    | GoodsCl		    | 1 byte 	    | 휴대폰 소액결제 추가 파라미터 0:컨텐츠, 1:실물
+                    // 문화상품권 추가
+                    | MallUserID		| 20 byte req   | 상점에서 사용하는 사용자 아이디, 문화상품권 결제 시 필수
+                    | UserCI		    | 1 byte 	    | 결제 고객 사용자 인증 CI 정보. 아이디/비밀번호 외 추가로 CI 인증이 필요한 경우 사용 사용 전 영업담당자와 사전 협의 필수
+                    ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                    */
+                    const requiredParams = [
+                        'GoodsName', 'Amt', 'MID', 'EdiDate', 'Moid', 'SignData', 'PayMethod', 'ReqReserved', 'CharSet'
+                    ];
+    
+                    const requiredTestValue = {
+                        'GoodsName' : '얼몽'
+                        , 'Amt' : '1000'
+                        , 'MID' : MID
+                        , 'EdiDate' : ediDate
+                        , 'Moid' : self.crypto.randomUUID()
+                        , 'SignData' : signData
+                        , 'PayMethod' : 'CARD'
+                        , 'ReqReserved' : self.crypto.randomUUID() //임시 id가 들어가면 될 것 같음
+                        , 'CharSet' : 'utf-8'
+                    }
+    
+                    const formParams = [
+                        "GoodsName"
+                        , "Amt"
+                        , "MID"
+                        , "EdiDate"
+                        , "Moid"
+                        , "SignData"
+                        , "PayMethod"
+                        , "ReturnURL"
+                        , "BuyerName"
+                        , "BuyerTel"
+                        , "ReqReserved"
+                        , "BuyerEmail"
+                        , "CharSet"
+                        , "VbankExpDate"
+                        , "GoodsCl"
+                        , "ConnWithIframe"
+                    ]
+                    var payForm = document.createElement('form');
+                    payForm.setAttribute('method'         , 'post');
+                    payForm.setAttribute('accept-charset' , 'euc-kr');
+                    payForm.setAttribute('name'           , 'payForm');
+                    for (const el of formParams) {
+                        let value = requiredTestValue.hasOwnProperty(el) ? requiredTestValue[el] : null;
+                        if(value){
+                            var input   = document.createElement('input');
+                            input.type  = 'hidden';
+                            input.name  = el;
+                            input.id    = el;
+                            input.value =  value;
+                            payForm.appendChild(input);
+                        }
+                    }
+                    var input   = document.createElement('input');
+                    input.type  = 'hidden';
+                    input.name  = 'SkinType';
+                    input.id    = 'SkinType';
+                    input.value =  'dark';
+                    payForm.appendChild(input);
+                    document.body.appendChild(payForm);
+                    nicepay.goPay(payForm);
+                }
+
+                window.onload = () =>{
+                    reqPay();
+                }
+            </script>
+            
+            
+        </header>
+        <body>
+        </body>        
+    </html>
+</apex:page>

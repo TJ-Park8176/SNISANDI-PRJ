@@ -1,0 +1,27 @@
+<!--
+ - Created by MZC01-DGCHOI on 2024-03-07.
+ -->
+
+<!-- Sandi Product Review Card -->
+<template>
+
+    <div class="review-card-container">
+        <div class="review-card-title">
+            <div class="review-card-name">{reviewData.Owner.Name}</div>
+            <div class="review-card-star">
+                <template if:true={star_one}>★</template>
+                <template if:true={star_two}>★★</template>
+                <template if:true={star_three}>★★★</template>
+                <template if:true={star_four}>★★★★</template>
+                <template if:true={star_five}>★★★★★</template>
+            </div>
+            <div class="review-card-date">{writeDate}</div>
+        </div>
+        <div>
+            <p class="review-card-body">
+                {reviewData.Description__c}
+            </p>
+            <div class="review-card-photo">사진</div>
+        </div>
+    </div>
+</template>

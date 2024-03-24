@@ -1,0 +1,205 @@
+.slds-m-around_medium {
+    padding-top: 0px;
+}
+
+.scrollBox {
+    overflow: auto;
+    max-height: 70vh;
+}
+
+.mTable {
+    border-spacing: 0;
+    border-collapse: separate;
+    empty-cells: show;
+}
+
+.mTable thead {
+    border-bottom: 2px solid #fff;
+    background-color: #16325C;
+    color: #fff;
+    font-weight: bold;
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+}
+
+.mTable tbody tr:nth-child(1),
+.mTable tbody tr:nth-child(1) td:nth-child(2) { /* 23.05.30 dgchoi : 3행 고정 추가 */
+    position: sticky;
+    top: 56px;
+    z-index: 2;
+}
+
+.mTable tr th {
+    border-bottom: 1px solid #eee;
+}
+
+.mTable thead tr th:first-child,
+.mTable tbody tr:first-child td:first-child {
+    position: sticky;
+    left: 0px;
+}
+
+.mTable thead tr th:nth-child(2),
+.mTable .foldUpper,
+.mTable .totalUpper td:first-child,
+.mTable .totalMiddle td:first-child,
+.mTable .totalLower td:nth-child(1),
+.mTable .targetTr td:nth-child(1) {
+    position: sticky;
+    left: 100px;
+    z-index:0;
+}
+.mTable thead tr:nth-child(2) th:nth-child(3),
+.mTable .foldMiddle,
+.mTable .totalLower td:nth-child(2),
+.mTable .targetTr td:nth-child(2)
+{
+    position: sticky;
+    left: 200px;
+    z-index:0;
+}
+.mTable thead tr:nth-child(2) th:nth-child(4),
+.mTable .foldLower,
+.mTable .targetTr td:nth-child(3){
+    position: sticky;
+    left: 330px;
+    z-index:0;
+}
+.mTable thead tr:nth-child(2) th:nth-child(5),
+.mTable .asCode {
+    position: sticky;
+    left: 500px;
+    z-index:0;
+}
+.mTable thead tr:nth-child(2) th:nth-child(6),
+.mTable .asName {
+    position: sticky;
+    left: 570px;
+    z-index:0;
+}
+.mTable .asName,
+.mTable .asCode,
+.mTable tbody .totalMiddle td:nth-child(1),
+.mTable tbody .totalLower td:nth-child(1),
+.mTable tbody .totalLower td:nth-child(2),
+.targetTr td {
+    background-color: #fff !important;
+}
+
+
+.mTable th:not(:last-child), .mTable td:not(:last-child) {
+    border-right: 1px solid #eee;
+}
+
+.mTable th {
+    background-color: #16325C;
+    padding:5px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.titleCol {
+    border-bottom: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+
+.subTitleCol {
+    border-right: 1px solid #eee;
+}
+
+.numColum {
+    min-width: 150px;
+}
+
+.mTable tbody td {
+    padding-left:5px;
+}
+
+.mTableTr td, .totalTr td {
+    border-bottom: 1px solid #ddd;
+}
+
+.totalTd {
+    color: #16325C;
+    font-weight: bold;
+}
+
+/*
+.totalUpper td { background-color: #8A98AD; }
+.totalMiddle td { background-color: #ADB5C2; }
+.totalLower td { background-color: #C6CAD0; }
+*/
+
+.foldUpper {
+    cursor:pointer;
+}
+.foldUpper:hover {
+   background-color: #0176D3;
+}
+
+
+.upper:not(.totalTd), .lower:not(.totalTd), .middle:not(.totalTd) {
+    font-size:0;
+}
+
+.mTableTr td {height: 25px; max-height:25px;}
+.upper  { min-width: 100px }
+.middle { min-width: 130px }
+.lower  { min-width: 170px }
+.asCode { min-width: 70px }
+.asName { min-width: 340px }
+.wbs    {
+    min-width: 100px;
+    vertical-align:top;
+    font-weight: bold;
+    background-color: #738AAD;
+    color: #16325C;
+}
+
+
+
+.folder.unfold:after {
+    content: '∧';
+    font-weight: bold;
+}
+
+.folder.fold:after {
+    content: '∨';
+    font-weight: bold;
+}
+
+.disabled {
+    display:none;
+}
+
+/*
+.mCombo {
+    margin-bottom: 10px;
+    width: 300px;
+}
+
+lightning-combobox label {
+    font-weight: 700;
+}
+*/
+
+
+.container-input-search {
+    margin-right:20px;
+    margin-bottom: 10px;
+    width: 300px;
+    display:inline-block;
+}
+.input-search label {
+    font-weight: 700;
+}
+.input-search {
+
+}
+
+.mTableTr .amt {
+    text-align: right;
+    padding-right:3px;
+    z-index:-1;
+}

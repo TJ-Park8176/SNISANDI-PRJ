@@ -1,0 +1,18 @@
+/**
+ * Created by MZC01-DGCHOI on 2024-03-22.
+ */
+
+/*
+iframe {
+    height: 243px;
+}
+*/
+
+.custom_layout{
+    display: grid;
+    grid-template-columns: 33% 1fr;
+    width: 100%;
+}
+.custom-item_layout{
+    display: flex;
+}

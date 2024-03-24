@@ -1,0 +1,40 @@
+.detail_section + .detail_section{
+    margin-top:2rem;
+}
+.detail_header{
+    display: flex;
+    gap: 1rem;
+}
+.detail_header dt{
+    font-size: 12px;
+    color: #ccc;
+}
+.detail_list{
+    display: flex;
+    flex-flow: column;
+    gap: 0.5rem;
+}
+.item_layout{
+    display: grid;
+    grid-template-columns: 50px auto 10% 10%;
+    gap: 1rem;
+    align-items: center;
+}
+.ico-file{
+    display: inline-block;
+    width: 50px;
+    height:50px;
+    border:1px solid #ccc;
+}
+.ico-download{
+    display: inline-block;
+    width: 50px;
+    height:50px;
+    border:1px solid #ccc;
+}
+.text-overflow{
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

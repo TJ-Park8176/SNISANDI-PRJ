@@ -1,0 +1,14 @@
+iframe {
+    border: 0;
+}
+
+.custom-modal__container{
+    width: none !important;
+    max-width: none !important;
+    min-width: none !important;
+    width: 900px !important;
+}
+
+.custom-modal__content{
+    height: 550px !important;
+}

@@ -1,0 +1,27 @@
+<!--
+ - Created by MZC01-DGCHOI on 2024-03-20.
+ -->
+
+<!-- Sandi Checkout Shipping Address -->
+<template>
+    <lightning-button
+        variant="brand"
+        label="배송 주소 방법 변경"
+        title="배송 주소 방법 변경"
+        onclick={changeDeliveryMethod}>
+    </lightning-button>
+
+    <lightning-button
+            variant="brand"
+            label="배송지 추가"
+            title="배송지 추가"
+            onclick={createAddress}>
+    </lightning-button>
+
+    <lightning-button
+            variant="brand"
+            label="배송지 변경"
+            title="배송지 변경"
+            onclick={changeDeliveryAddress}>
+    </lightning-button>
+</template>

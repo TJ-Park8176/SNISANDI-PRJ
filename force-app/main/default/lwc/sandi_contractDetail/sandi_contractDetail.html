@@ -1,0 +1,87 @@
+<template>
+    <lightning-modal-header label="계약 상세"></lightning-modal-header>
+    <lightning-modal-body> 
+        <section class="detail_header detail_section">
+            <dl>
+                <dt>계약번호</dt>
+                <dd>C1234567</dd>
+            </dl>
+            <dl>
+                <dt>상태</dt>
+                <dd>계약진행</dd>
+            </dl>
+            <dl>
+                <dt>계약시작일</dt>
+                <dd>2024-04-10</dd>
+            </dl>
+            <dl>
+                <dt>계약종료일</dt>
+                <dd>2026-04-09</dd>
+            </dl>
+            <dl>
+                <dt>계약총금액</dt>
+                <dd>12,000,000</dd>
+            </dl>
+        </section>    
+
+        <section class="detail_section">
+            <lightning-tabset>
+                <lightning-tab label="계약상품">
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>순번</th>
+                                    <th>상품</th>
+                                    <th>계약금액</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            1
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            원격감시(36개월)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            6,000,000
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            2
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            원격감시(36개월)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            6,000,000
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </lightning-tab>
+
+                
+            </lightning-tabset>
+        </section>
+
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button label="확인" onclick={handleClose}></lightning-button>
+    </lightning-modal-footer>
+</template>

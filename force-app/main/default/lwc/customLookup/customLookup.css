@@ -1,0 +1,26 @@
+/**
+ * Created by MZC01-DGCHOI on 2023-03-28.
+ */
+
+.pillSize{
+    width: 100%;
+}
+
+.pillSize span{ /*안먹어*/
+    padding: 5px !important;
+    width: 100% !important;
+    border-color: #C9C9C9 !important;
+    justify-content: flex-start !important;
+}
+
+.slds-pill__label {
+    padding-left: 20px;
+}
+
+lightning-radio-group .slds-radio_faux {
+    margin-right: 10px;
+}
+
+.slds-modal__content{
+    overflow: initial;
+}

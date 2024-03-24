@@ -1,0 +1,31 @@
+<!--
+ - Created by MZC01-DGCHOI on 2024-03-15.
+ -->
+
+<!-- T Flow -->
+<template>
+    <!-- insert flow -->
+    <lightning-flow
+            if:true={renderInsertFlow}
+            flow-api-name="TestInsertReview"
+            flow-input-variables={inputInsertVariables}
+            onstatuschange={handleInsertStatusChange}>
+    </lightning-flow>
+
+    <lightning-flow
+            if:true={renderOneReviewFlow}
+            flow-api-name="TestOneReview"
+            flow-input-variables={inputOneReviewVariables}
+            onstatuschange={handleOneReviewStatusChange}>
+    </lightning-flow>
+
+    <lightning-flow
+            if:true={renderMultiReviewFlow}
+            flow-api-name="TestMultiReview"
+            flow-input-variables={inputVariables}
+            onstatuschange={handleMultiReviewClick}>
+    </lightning-flow>
+    <button onclick={handleInsertClick}>Insert</button>
+    <button onclick={handleOneReviewClick}>One Review</button>
+    <button onclick={handleMultiReviewClick}>Multi Review</button>
+</template>

@@ -1,0 +1,23 @@
+/**
+ * Created by MZC01-DGCHOI on 2024-02-19.
+ */
+
+.carousel-container{
+    margin: 0 auto;
+}
+
+.custom-carousel {
+    width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
+    margin: 0 auto;
+    height: 600px;
+}
+
+.custom-carousel img{
+    width: auto !important;
+    border-radius: 10px;
+    margin: 0 5px;
+    height: 600px;
+    object-fit: cover;
+    width: auto;
+}

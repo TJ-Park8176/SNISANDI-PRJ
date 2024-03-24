@@ -1,0 +1,108 @@
+/**
+ * Created by MZC01-DGCHOI on 2023-09-25.
+ */
+
+/* page-container */
+.page-container {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+/* TABLE */
+.groupTable {
+    border-radius: 5px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.groupTable thead td {
+    border-bottom: 1px solid #ddd;
+    padding: 3px;
+    font-size: 15px;
+}
+.groupTable tbody td {
+    border-bottom: 1px solid #ddd;
+    height: 40px;
+    padding-left: 10px;
+}
+
+/*.groupTable thead {*/
+/*    border-bottom: 2px solid #aaa;*/
+/*}*/
+
+.groupTable thead td {
+    font-weight: bold;
+    text-align: center;
+    border-right: 1px solid #ddd;
+}
+
+.groupTable thead tr:nth-child(1) {
+    background-color: #16325C;
+    color: #fff !important;
+}
+.groupTable thead tr:nth-child(2) {
+    background-color: #8A98AD;
+    color: #16325C;
+}
+.groupTable thead tr:nth-child(3) {
+    background-color: #ADB5C2;
+    color: #16325C;
+}
+.groupTable thead tr:nth-child(4) {
+    background-color: #C6CAD0;
+    color: #16325C;
+}
+.groupTable thead tr:nth-child(5) {
+    background-color: #C6CAD0;
+    color: #16325C;
+}
+
+.groupTable tbody td:nth-child(1) {
+    width: 100px;
+}
+.groupTable tbody td:nth-child(2) {
+    width: 300px;
+    border-right: 1px solid #ddd;
+}
+.groupTable tbody td:nth-child(3) {
+    width: 100px;
+}
+.groupTable tbody td:nth-child(4) {
+    width: 300px;
+}
+.groupTable tbody td:nth-child(5) {
+    width: 200px;
+}
+
+lightning-combobox {
+    width: 250px;
+    margin-bottom: 15px;
+}
+
+header {
+    display:flex;
+    justify-content: space-between;
+}
+
+.calculBtn {
+    position: relative;
+    top: 25px;
+}
+
+.input-rate {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    background-color: #eee;
+}
+
+.input-container {
+    display:flex;
+    width:100%;
+    text-align: right;
+}
+.percentage-symbol {
+    margin-left: 5px;
+    position: relative;
+    top:5px;
+}

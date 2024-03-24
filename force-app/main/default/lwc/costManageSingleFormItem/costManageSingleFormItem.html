@@ -1,0 +1,79 @@
+<!--
+ - Created by MZC01-DGCHOI on 2022-12-16.
+ -->
+
+<!-- Cost Manage Single Form Item -->
+<template>
+    <div class="">
+        <div class="slds-modal__header">
+            <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">매입 등록 및 편집</h1>
+        </div>
+
+        <div class="slds-modal__content slds-p-around_medium">
+
+            <lightning-record-edit-form
+                    object-api-name="Cost__c">
+
+                <div class="infoBox" style="position:relative;">
+                    <div style="display:inline-block;width:50%;padding-right:10px;">
+                        <lightning-input-field
+                                class="input-item"
+                                field-name="Itemmanagement__c"
+                                data-name="Itemmanagement"
+                                value={itemField} disabled>
+                        </lightning-input-field>
+                    </div>
+                    <div style="display:inline-block;width:50%;padding-left:10px;position:absolute;top:0;">
+                        <lightning-input-field
+                                class="input-wbs"
+                                field-name="WBS__c"
+                                data-name="wbs"
+                                value={wbsField} disabled>
+                        </lightning-input-field>
+                        <lightning-input-field
+                                field-name="AccountSubjectselect__c"
+                                data-name="subject"
+                                value={subjectField}>
+                        </lightning-input-field>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <table class="monthTable">
+                    <thead>
+                    <tr>
+                        <th style="width:70px;text-align:center;">정산 월</th>
+                        <th style="text-algin:left;padding-left:30px;">금액</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <template if:true={showCostList}>
+                        <template for:each={costList} for:item="cost">
+                            <tr key={cost.ano}>
+                                <td style="width:50px;text-align:center;">{cost.ano}월</td>
+                                <td>
+                                    <lightning-input-field
+                                            class="input-price"
+                                            field-name="PurchaseAmount__c"
+                                            variant="label-hidden"
+                                            value={cost.data.PurchaseAmount__c}>
+                                    </lightning-input-field>
+                                </td>
+                            </tr>
+                        </template>
+                    </template>
+
+                    </tbody>
+                </table>
+
+            </lightning-record-edit-form>
+        </div>
+
+        <div class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick={closeAction}>취소</button>
+            <button class="slds-button slds-button_brand" onclick={handleClick}>등록</button>
+        </div>
+    </div>
+</template>

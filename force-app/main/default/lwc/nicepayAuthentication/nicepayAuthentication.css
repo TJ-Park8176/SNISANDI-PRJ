@@ -1,0 +1,11 @@
+.fade-on {
+    width:100%;
+    height:100%;
+}
+.vf_container_iframe{
+    width:90%;
+    height:90%;
+}
+.vf_container_iframe iframe{
+    border: 0;
+}

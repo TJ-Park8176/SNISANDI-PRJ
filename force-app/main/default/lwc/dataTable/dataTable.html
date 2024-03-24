@@ -1,0 +1,107 @@
+<template>
+    <lightning-card title="손익계산서 대시보드">
+       <div class="slds-m-around_medium">
+           <div style="position:relative;">
+               <!-- WBS combobox : 수정전 -->
+<!--               <lightning-combobox-->
+<!--                       class="mCombo"-->
+<!--                       name="WBS"-->
+<!--                       label={wbsOrCc}-->
+<!--                       value={wbsValue}-->
+<!--                       placeholder="조회할 WBS/CC를 선택해주세요."-->
+<!--                       options={wbsOptions}-->
+<!--                       onchange={handleChangeWbs}-->
+<!--                       style="display:inline-block;margin-right:20px;">-->
+<!--               </lightning-combobox>-->
+
+               <!-- WBS searchable input -->
+               <div class="slds-form-element__control container-input-search"
+                    style="margin-right:20px; margin-bottom: 10px; width: 300px; display:inline-block;">
+                   <lightning-input
+                           placeholder="조회할 WBS/CC를 선택해주세요."
+                           label={wbsOrCc}
+                           type="search"
+                           class="input-search"
+                           onfocus={showPicklistOptions}
+                           onchange={search}
+                           value={selectedValue}
+                           disabled={searchInputDisabled}>
+                   </lightning-input>
+
+                   <div if:true={searchResults} class="slds-dropdown slds-dropdown_length-7 slds-dropdown_fluid" role="listbox">
+                       <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                           <template for:each={searchResults} for:item="searchResult">
+                               <li key={searchResult.value} data-value={searchResult.value} role="presentation"
+                                   onclick={selectSearchResult} class="slds-listbox__item">
+                                   <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                        role="option">
+                                    <span class="slds-media__body">
+                                        <span class="slds-truncate" title={searchResult.label}>
+                                            {searchResult.label}
+                                        </span>
+                                    </span>
+                                   </div>
+                               </li>
+                           </template>
+                       </ul>
+                   </div>
+               </div>
+
+               <!--운영/현장 토글버튼-->
+               <fieldset class="slds-form-element" style="display:inline-block;">
+                   <legend class="slds-form-element__legend slds-form-element__label">현장/운영 구분</legend>
+                   <div class="slds-form-element__control">
+                       <div class="slds-radio_button-group">
+                          <span class="slds-button slds-radio_button">
+                            <input type="radio" name="locType" id="loc-type-site" value="현장" disabled={locTypeDisabled} checked/>
+                            <label class="slds-radio_button__label" for="loc-type-site">
+                              <span class="slds-radio_faux">현장</span>
+                            </label>
+                          </span>
+                          <span class="slds-button slds-radio_button">
+                            <input type="radio" name="locType" id="loc-type-ops" disabled={locTypeDisabled} value="운영" />
+                            <label class="slds-radio_button__label" for="loc-type-ops">
+                              <span class="slds-radio_faux">운영</span>
+                            </label>
+                          </span>
+                       </div>
+                   </div>
+               </fieldset>
+
+               <!-- csv export 버튼 -->
+               <lightning-button variant="brand"
+                                 label="Export to Excel"
+                                 title="Successful action"
+                                 onclick={downloadCSVFile}
+                                 style="position:absolute;right:0;top:22px;"
+                                 class="slds-m-left_x-small">
+               </lightning-button>
+           </div>
+
+
+           <!-- spinner -->
+           <div style="position:relative">
+               <template if:false={loading}>
+                   <lightning-spinner variant="brand" alternative-text="Loading" size="brand"></lightning-spinner>
+               </template>
+           </div>
+
+
+           <!-- Table -->
+           <div class="scrollBox">
+
+               <table class="mTable">
+                   <thead>
+<!--                   <tr class="titleCol">-->
+<!--                       <th data-upper="ccc">WBS/CC</th>-->
+<!--                       <th colspan="5">계정 과목 구분</th>-->
+<!--                       <th colspan="3">연간 합계</th>-->
+<!--                   </tr>-->
+                   </thead>
+                   <tbody></tbody>
+               </table>
+           </div>
+
+       </div>
+    </lightning-card>
+ </template>

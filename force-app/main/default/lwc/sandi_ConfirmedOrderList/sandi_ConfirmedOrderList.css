@@ -1,0 +1,54 @@
+/* .th1{
+    padding: 4px 8px 4px 16px;
+  }
+
+.th2{
+    padding : 4px 8px;
+} */
+
+.detailOpenCls {
+  /* display: none; */
+}
+
+.horizontalList {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.horizontalList li {
+  margin-right: 10px;
+}
+
+.fieldLabel {
+  font-size: 0.75rem;
+  color: rgb(68, 68, 68);
+}
+
+.truncatePartnerCls {
+  max-width: 120px; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.truncateProductCls {
+  max-width: 180px; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.buttonGap {
+  margin-right: 5px;
+}
+
+/* .confirmedOrderDetail {
+  padding: unset;
+  text-align: center !important;
+} */
+
+td {
+  height: 40px;
+}

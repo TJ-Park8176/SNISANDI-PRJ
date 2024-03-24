@@ -1,0 +1,48 @@
+/**
+ * Created by MZC01-DGCHOI on 2023-09-25.
+ */
+
+.page-container {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.ccTable {
+    border-radius: 5px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    width:100%;
+}
+
+.ccTable td, .ccTable th {
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+}
+
+.ccTable thead {
+    background-color: #16325C;
+    color: #fff;
+    border-bottom: 2px solid #000;
+}
+
+.ccTable tbody td:nth-child(1) {
+    width: 30%;
+}
+.ccTable tbody td:nth-child(2) {
+    width: 50%;
+}
+/*.ccTable tbody td:nth-child(3) {*/
+/*    width: 20%;*/
+/*}*/
+
+.input-container {
+    display:flex;
+    width:100%;
+    text-align: right;
+}
+.percentage-symbol {
+    margin-left: 5px;
+    position: relative;
+    top:5px;
+}

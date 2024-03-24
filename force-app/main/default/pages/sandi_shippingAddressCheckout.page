@@ -1,0 +1,72 @@
+<!--
+ - Created by MZC01-DGCHOI on 2024-03-22.
+ -->
+
+<apex:page lightningStylesheets="true" controller="Sandi_ContactPointAddressController">
+    <apex:slds >
+        <html>
+        <head>
+            <!--Bootstrap CSS only -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"/>
+            <!-- jquery -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+            <style>
+
+            </style>
+        </head>
+        <body>
+        <script src="http://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script>
+
+            let state, city, street, zipCode; //넘길 데이터
+            let fieldKey; //변경될 주소 필드
+
+            window.addEventListener("message", function (event) {
+                console.log("vf msg : ", event.data);
+                execDaumPostcode();
+            });
+
+            function execDaumPostcode() {
+                const self = this;
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        console.log("execDaumPostcode data ==> ",data);
+
+                        //Contact Point Address로 넘길 데이터
+                        self.state = data.sido;
+                        self.city = data.sigungu;
+                        self.street = data.address.split(data.sigungu + ' ')[1];
+                        self.zipCode = data.zonecode;
+
+                        state = data.sido;
+                        city = data.sigungu;
+                        street = data.address.split(data.sigungu + ' ')[1];
+                        zipCode = data.zonecode;
+
+                        console.log("execDaumPostcode self ==> ", self.state, self.city, self.street, self.zipCode);
+
+                        //우편번호와 주소 정보를 해당 필드에 넣는다.
+                        firetoLWC();
+                    }
+                }).open();
+            }
+
+
+            /*** Method to Fire Event to LWC ***/
+            function firetoLWC() {
+                const payload = {
+                    state : '서울특별시',
+                    //state : state,
+                    city : city,
+                    street : street,
+                    postalCode : zipCode,
+                    country : 'Korea, Republic of',
+                }
+                window.parent.postMessage(payload, '*');
+            }
+
+        </script>
+        </body>
+        </html>
+    </apex:slds>
+</apex:page>

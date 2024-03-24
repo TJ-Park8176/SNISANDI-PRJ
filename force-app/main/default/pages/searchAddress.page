@@ -1,0 +1,177 @@
+<apex:page lightningStylesheets="true" controller="BillingAddressController">
+    <apex:slds >
+        <html>
+        <head>
+            <!--Bootstrap CSS only -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"/>
+            <!-- jquery -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+            <style>
+        .title {
+            font-size:14px;
+            padding: 0 !important;
+            margin: 4px 0;
+        }
+        .row {
+            margin:5px;
+        }
+        .content {
+            width:100%;
+        }
+        .updateBtn {
+            position:absolute !important;
+            right:0;
+        }
+        .content input {
+            width:100%;
+        }
+        hr {
+            margin:15px !important;
+            border-width:1px !important;
+            border-color:grey !important;
+        }
+        /* @media (max-width: 800px) {
+            .row {
+                margin: 0 5px;
+            }
+
+        } */
+    </style>
+        </head>
+        <body>
+
+        <apex:form >
+            <!--도로명주소, 상세주소, 우편번호 로 바꿔-->
+
+            <div class="title">도로명 주소</div>
+            <div class="content"><input type="text" id="data_road" placeholder="도로명 주소" disabled="disabled"/></div>
+            <div class="title">상세 주소</div>
+            <div class="content"><input type="text" id="data_des" placeholder="상세주소" disabled="disabled"/></div>
+            <div class="title">우편 번호</div>
+            <div class="content"><input type="text" id="data_zip" placeholder="우편번호" disabled="disabled"/></div>
+
+            <hr/>
+
+            <input type="button" onclick="execDaumPostcode()" class="slds-button slds-button_outline-brand" value="주소 찾기"/>
+            <input type="button" onclick="updateAddress()" class="updateBtn slds-button slds-button_brand" value="입력"/>
+
+        </apex:form>
+
+        <script src="http://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script>
+
+    let state, city, street, zipCode; //넘길 데이터
+    let fieldKey; //변경될 주소 필드
+
+    function execDaumPostcode() {
+        const self = this;
+        new daum.Postcode({
+            oncomplete: function(data) {
+                console.log(data);
+
+                //Billing Address로 넘길 데이터
+                self.state = data.sido;
+                self.city = data.sigungu;
+                self.street = data.address.split(data.sigungu + ' ')[1];
+                self.zipCode = data.zonecode;
+
+                console.log(self);
+                console.log(self.state, self.city, self.street, self.zipCode);
+
+                //우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('data_road').value = data.roadAddress;
+                document.getElementById('data_zip').value = data.zonecode;
+            }
+        }).open();
+
+        $('#data_des').attr('disabled', false);
+        $('#data_des').focus();
+
+    }
+
+    function updateAddress() {
+        console.log('----updateAddress()----');
+        let status = '';
+        let desAddr = document.getElementById('data_des').value;
+        let country = '대한민국';
+        const self = this;
+
+        console.log(self.state, self.city, self.street, desAddr, self.zipCode, country);
+
+        if( !(self.state || self.city || self.street || self.zipCode) ){
+            status = 'error';
+            showToastMsg('주소를 검색해주세요.', status);
+            return;
+        }
+
+/*
+        var currentURL = window.location.origin;
+        var originUrl = currentURL.split('.vf.')[0].replace('--c','') +'.lightning.force.com/lightning/r/Account/';
+
+        const pageUrl = window.location.href;
+        const queryStringKey = 'recordId=';
+        const recordId = decodeURI(pageUrl.slice(pageUrl.lastIndexOf(queryStringKey)+queryStringKey.length));
+        const detailUrl = originUrl + recordId +'/view';
+
+        console.log(pageUrl);
+        console.log('accId: ' + recordId);
+*/
+
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.BillingAddressController.updateBillingAddress}',
+            '8lW1y000000TYy9EAG', //recordId
+            {'state':self.state, 'city':self.city, 'street':self.street + ' ' + desAddr, 'zipCode':self.zipCode, 'country':country},
+            function(result, event) {
+                console.log(event.status);
+                if(event.status == true) {
+                    alert("Billing Address Update 완료");
+                    // window.parent.location.href = detailUrl;
+                } else {
+                    alert("Billing Address Update 실패");
+                }
+            },
+            {escape: true}
+        );
+    }
+
+    function showToastMsg(msg, sts) {
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.BillingAddressController.platformEvent}',
+            msg, sts,
+            function(result, event) {
+                console.log(event.status);
+                if(event.status == true) {
+                    console.log(result);
+                } else {
+                    console.log(result);
+                }
+            },
+            {escape: true}
+        );
+    }
+
+    // Obtaining LEX origin URL from Apex to fire to parent & match the source upon receiving message
+    var lexOrigin = '{!lexOrigin}';
+
+    /*** EventListener to GET response from LWC  ***/
+    /*
+    window.addEventListener("message", function (event) {
+        if (event.origin === lexOrigin) {
+            var receivedfromLWC = event.data;
+            this.fieldKey = receivedfromLWC;
+        }
+    });
+    */
+
+    /*** Method to Fire Event to LWC ***/
+    function firetoLWC() {
+        var message = document.getElementById('vfMessage').value;
+        window.parent.postMessage(message, lexOrigin);
+    }
+
+</script>
+        </body>
+        </html>
+
+    </apex:slds>
+</apex:page>

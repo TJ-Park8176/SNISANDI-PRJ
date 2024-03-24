@@ -1,0 +1,37 @@
+<!--
+ - Created by MZC01-DGCHOI on 2024-03-07.
+ -->
+
+<!-- Sandi Product Review Summary -->
+<template>
+    <div class="summary-container">
+        <div class="summary-body">
+            <div class="summary-body-text summary-body-text-sum">
+                총
+                <span> {summaryInfo.sumOfReviews} </span>
+                건
+            </div>
+            <div class="summary-body-text">
+                <span class="avgRating"> {summaryInfo.averageRating} </span>
+                점
+            </div>
+        </div>
+
+        <div class="summary-body">
+            <template for:each={summaryInfo.ratingDistribution} for:item="r">
+                <div class="rating-container" key={r.rating}>
+                    <div class="rating-bar-percent">
+                        {r.percent}
+                    </div>
+                    <div class="rating-bar">
+                        <div
+                            class="rating-bar-highlight"
+                            data-percent={r.percent}>
+                        </div>
+                    </div>
+                    <div class="rating-bar-rating">{r.rating}점</div>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

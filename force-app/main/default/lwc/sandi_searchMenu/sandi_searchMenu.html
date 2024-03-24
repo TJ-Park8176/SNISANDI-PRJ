@@ -1,0 +1,71 @@
+<!--
+ - Created by MZC01-DGCHOI on 2024-03-06.
+ -->
+
+<!-- Sandi Search Menu -->
+<template>
+    <div class="search-container">
+        <div class="search-btn" onclick={handleSearchButtonClick}>
+            <span> ▼ </span>
+        </div>
+
+        <template if:true={showModal}>
+            <div class="search-modal">
+                <div class="search-modal-body">
+                    <div class="search-modal-body-inner">
+                        <span>최근 검색어</span>
+                        <div class="search-list search-list search-list-recently">
+                            <ul>
+                                <template for:each={recentlySearchTerms} for:item="item">
+                                    <li key={item.index}>
+                                        <span class="search-list-term" onclick={handleSearchTermClick}>
+                                            {item.term}
+                                        </span>
+                                        <span class="search-list-term-delete" onclick={handleSearchTermDeleteClick}
+                                            data-term={item.term}>
+                                            x
+                                        </span>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="search-modal-body-inner">
+                        <span style="margin-left:10px">인기 검색어</span>
+                        <div class="search-list search-list-popular">
+                            <ul>
+                                <template for:each={popularSearchTerms} for:item="term">
+                                    <li key={term.Rank__c}>
+                                        <span class="search-list-rank">{term.Rank__c}</span>
+                                        <span class="search-list-term"
+                                            onclick={handleSearchTermClick}>{term.Name}</span>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-modal-footer">
+                    <div class="slds-form-element">
+                        <label class="slds-checkbox_toggle slds-grid" style="margin-top:8px;">
+                            <span class="slds-form-element__label slds-m-bottom_none" style="font-size:12px;">검색어
+                                저장</span>
+                            <input type="checkbox" name="checkbox-toggle-18" value="checkbox-toggle-18"
+                                aria-describedby="checkbox-toggle-18" checked={checkedValue}
+                                onchange={handleToggleChange} />
+                            <span id="checkbox-toggle-18" class="slds-checkbox_faux_container" style="margin-top:-3px;">
+                                <span class="slds-checkbox_faux"></span>
+                                <span class="slds-checkbox_on"></span>
+                                <span class="slds-checkbox_off"></span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="close-btn" onclick={handleCloseButtonClick}>x</div>
+                </div>
+            </div>
+
+            <div class="render-searchHistory" style="display:none">{searchHistory}</div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,159 @@
+<!--
+@description       : OrderSummary 화면에서 확정 주문 확인 및 주문취소, 반품, 교환을 처리할 수 있는 화면
+@author            : jisoolee@mz.co.kr
+@group             : 
+@last modified on  : 2024-03-20
+@last modified by  : jisoolee@mz.co.kr
+-->
+
+<template>
+  <article class="slds-card slds-card_boundary slds-theme_shade" style="margin-top : 13px">
+    <div class="slds-card__header slds-grid" style="padding-top:0; margin-bottom:0; border-bottom: solid 1px #D5D5D5;">
+      <header class="slds-media slds-media--center slds-has-flexi-truncate" style="height:50px;">
+        <table>
+          <thead>
+            <tr>
+              <td style="width:35px;">
+                <lightning-icon 
+                  icon-name="custom:custom62" 
+                  alternative-text="ConfirmedOrder" 
+                  title="ConfirmedOrder" 
+                  size="small">
+                </lightning-icon>
+              </td>
+              <td>
+                <p style="font-size:14px; font-weight: 700;">
+                  확정 주문 (<lightning-formatted-number value={confirmedOrderListLength}></lightning-formatted-number>)
+                </p>
+              </td>
+            </tr>
+          </thead>
+        </table>
+      </header>
+    </div>
+      
+    <div class="slds-card__body slds-scrollable_x" style="margin-bottom:0; margin-top:0;">
+      <table class="slds-table slds-no-row-hover slds-table_bordered" role="grid">        
+        <template if:true={confirmedOrderList}>
+          <thead>
+            <tr class="slds-line-height_reset">
+              <th></th>
+              <th class="th1" scope="col" style="padding-left:0.7rem;">
+                <div class="slds-truncate" title="ConfirmedOrderNumber">확정 주문 번호</div>
+              </th>               
+              <th class="th2" scope="col">
+                <div class="slds-truncate" title="ParnterName">파트너사</div>
+              </th>                
+              <th class="th2" scope="col">
+                <div class="slds-truncate" title="ConfirmedOrderType">유형</div>
+              </th>           
+              <th class="th1" scope="col">
+                <div class="slds-truncate" title="ProductName">제품 이름</div>
+              </th>
+              <th class="th2" scope="col">
+                <div class="slds-truncate" title="ConfirmedOrderStatus">상태</div>
+              </th>   
+              <th class="th2" scope="col">
+                <div class="slds-truncate" title="ConfirmedOrderStatus">수량</div>
+              </th>              
+              <th class="th2" scope="col">
+                <div class="slds-truncate" title="ConfirmedOrderStatus">금액</div>
+              </th>                                    
+              <!-- <th class="th2" scope="col">
+                <div class="slds-truncate" title="TotalAmount">최종 판매가</div>
+              </th> -->
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <template for:each={confirmedOrderList} for:item="confirmedOrder">
+              <tr key={confirmedOrder.confirmedOrderId}>
+                <td>
+                  <lightning-icon icon-name="utility:chevrondown" 
+                                  alternative-text="openDetail" 
+                                  title="openDetail" 
+                                  size="xx-small" 
+                                  onclick={openAccordion} 
+                                  data-item={confirmedOrder.confirmedOrderId}>
+                  </lightning-icon>
+                </td>
+                <td>
+                  <lightning-formatted-url label={confirmedOrder.confirmedOrderNumber} value={confirmedOrder.confirmedOrderLink} target="_blank"></lightning-formatted-url>
+                </td>
+                <td class="truncatePartnerCls">
+                  <lightning-formatted-text 
+                    value={confirmedOrder.partnerName}>
+                  </lightning-formatted-text>
+                </td>
+                <td>
+                    <lightning-formatted-text 
+                      value={confirmedOrder.recordTypeName}>
+                    </lightning-formatted-text>
+                </td>
+                <td class="truncateProductCls">
+                    <lightning-formatted-text 
+                      value={confirmedOrder.productName}>
+                    </lightning-formatted-text>
+                </td>
+                <td>
+                    <lightning-formatted-text 
+                      value={confirmedOrder.status}>
+                    </lightning-formatted-text>
+                </td>
+                <td>
+                    <lightning-formatted-number 
+                      value={confirmedOrder.quantityOrdered}>
+                    </lightning-formatted-number>
+                </td>
+                <td>
+                    <lightning-formatted-number 
+                      value={confirmedOrder.finalTotalAmount}
+                      format-style="currency" 
+                      currency-code="KRW">     
+                    </lightning-formatted-number>
+                </td>
+                <td>
+                    <lightning-button-menu slot="actions" alternative-text="Show menu" icon-size="x-small" menu-alignment="auto">
+                      <template if:true={confirmedOrder.needApproval}>
+                        <lightning-menu-item value="approve" label="승인" data-item={confirmedOrder.confirmedOrderId} onclick={cancelOrder}></lightning-menu-item>
+                        <lightning-menu-item value="reject" label="반려" data-item={confirmedOrder.confirmedOrderId} onclick={cancelOrder}></lightning-menu-item>
+                      </template>
+                      <lightning-menu-item value="cancel" label="주문 취소" data-item={confirmedOrder.confirmedOrderId} onclick={cancelOrder}></lightning-menu-item>
+                      <lightning-menu-item value="reship" label="교환" data-item={confirmedOrder.confirmedOrderId} onclick={reshipOrder}></lightning-menu-item>
+                      <lightning-menu-item value="return" label="반품" data-item={confirmedOrder.confirmedOrderId} onclick={returnOrder}></lightning-menu-item>
+                    </lightning-button-menu>
+                </td>
+              </tr>
+              <tr key={confirmedOrder.recordTypeId} class={confirmedOrder.confirmedOrderId} style="display:none;" data-item={confirmedOrder.confirmedOrderId}>
+                <td key={confirmedOrder.confirmedOrderId} colspan="7">
+                  <div class="confirmedOrderDetail">
+                    <ul class="horizontalList"> 
+                      <li>
+                        <span class="fieldLabel" for="quantityOrdered">주문 수량</span><br>
+                        <span class="fieldValue" id="quantityOrdered">{confirmedOrder.quantityOrdered}</span>
+                      </li>
+                      <li>
+                        <span class="fieldLabel" for="quantityCanceled">취소 수량</span><br>
+                        <span class="fieldValue" id="quantityCanceled">{confirmedOrder.quantityCanceled}</span>
+                      </li>
+                      <!-- <li>
+                        <lightning-button class="slds-button__icon_x-small" label="주문 취소" data-item={confirmedOrder.confirmedOrderId} onclick={cancelOrder}></lightning-button>
+                      </li>
+                      <li>
+                        <lightning-button class="slds-button__icon_x-small" label="교환" data-item={confirmedOrder.confirmedOrderId} onclick={reshipOrder}></lightning-button>
+                      </li>
+                      <li>
+                        <lightning-button class="slds-button__icon_x-small" label="반품" data-item={confirmedOrder.confirmedOrderId} onclick={returnOrder}></lightning-button>
+                      </li> -->
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </template>
+      </table>
+    </div>  
+  </article>
+</template>

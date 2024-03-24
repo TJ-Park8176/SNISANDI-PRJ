@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>54.0</apiVersion>
+    <description>Carousel Banner</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Sandi Carousel Banner</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+
+            <property name="imageKey1" type="ContentReference" label="CMS Image 1" filter="cms_image"/>
+            <property name="description1" type="String" default="Description 1" label="Desc 1" />
+
+            <property name="imageKey2" type="ContentReference" label="CMS Image 2" filter="cms_image"/>
+            <property name="description2" type="String" default="Description 2" label="Desc 2" />
+
+            <property name="imageKey3" type="ContentReference" label="CMS Image 3" filter="cms_image"/>
+            <property name="description3" type="String" default="Description 3" label="Desc 3" />
+
+            <property name="imageKey4" type="ContentReference" label="CMS Image 4" filter="cms_image"/>
+            <property name="description4" type="String" default="Description 4" label="Desc 4" />
+
+            <property name="imageKey5" type="ContentReference" label="CMS Image 5" filter="cms_image"/>
+            <property name="description5" type="String" default="Description 5" label="Desc 5" />
+
+            <property name="imageKey6" type="ContentReference" label="CMS Image 6" filter="cms_image"/>
+            <property name="description6" type="String" default="Description 6" label="Desc 6" />
+
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

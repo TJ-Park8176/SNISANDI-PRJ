@@ -1,0 +1,140 @@
+<!--
+ - Created by MZC01-DGCHOI on 2022-12-16.
+ -->
+
+<!-- Amount Manage Form Oppty -->
+<template>
+    <div class="">
+        <div class="slds-modal__header">
+            <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">수주 매출 등록 및 편집</h1>
+        </div>
+
+        <div class="slds-modal__content slds-p-around_medium">
+
+            <lightning-record-edit-form
+                    object-api-name="Opportunity_amount__c">
+
+                <div class="infoBox" style="position:relative;">
+                    <div style="display:inline-block;width:50%;padding-right:10px;">
+                        <!--기본값 부여-->
+                        <lightning-input-field
+                                field-name="Opportunityname__c"
+                                data-name="Opportunityname"
+                                value={opptyField} disabled>
+                        </lightning-input-field>
+                        <lightning-input-field
+                                field-name="WBS_CC__c"
+                                data-name="WBS_CC"
+                                value={wbsField} disabled>
+                        </lightning-input-field>
+                        <lightning-input-field
+                                field-name="Parent_Opportunity__c"
+                                data-name="Parent_Opportunity"
+                                value={parentOpptyField} disabled>
+                        </lightning-input-field>
+                    </div>
+                    <div style="display:inline-block;width:50%;padding-left:10px;position:absolute;top:0;">
+                        <lightning-input-field
+                                field-name="OwnerId__c"
+                                data-name="OwnerId"
+                                value={ownerField} disabled>
+                        </lightning-input-field>
+                        <lightning-input-field
+                                field-name="AccountId__c"
+                                data-name="AccountId"
+                                value={accountField} disabled>
+                        </lightning-input-field>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div style="display:flex">
+                    <lightning-input
+                            class="totalAmountField"
+                            step="1"
+                            label="월 매출 발생 금액"
+                            variant="label-inline"
+                            type="number"
+                            formatter="currency"
+                            value={monthAmountField}
+                            disabled>
+                    </lightning-input>
+
+                    <lightning-input
+                            class="totalAmountField"
+                            step="1"
+                            label="총 매출 발생 금액"
+                            variant="label-inline"
+                            type="number"
+                            formatter="currency"
+                            value={totalAmountField}
+                            disabled>
+                    </lightning-input>
+                </div>
+
+<!--                <lightning-record-edit-form-->
+<!--                        object-api-name="Opportunity">-->
+<!--                    <lightning-input-field-->
+<!--                            variant=-->
+<!--                            class="totalAmountField"-->
+<!--                            field-name="Totalmonthlyamount__c"-->
+<!--                            data-name="Totalmonthlyamount"-->
+<!--                            value={totalAmountField} disabled>-->
+<!--                    </lightning-input-field>-->
+<!--                </lightning-record-edit-form>-->
+
+                <table class="monthTable">
+                    <thead>
+                        <tr>
+                            <th style="padding:0 0 15px 24px;color:#0E4C8C;">소계</th>
+                            <th style="padding: 0 0 10px 0;">
+                                <lightning-input class="totalSum"
+                                                 type="number"
+                                                 formatter="currency"
+                                                 disabled value={total}
+                                                 read-only="true">
+                                </lightning-input>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="width:70px;text-align:center;">정산 월</th>
+                            <th style="text-algin:left;padding-left:30px;">월 매출 발생 금액</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    <template if:true={showAmountList}>
+                        <template for:each={amountList} for:item="amt">
+                            <tr key={amt.ano}>
+                                <td style="width:50px;text-align:center;">{amt.ano}월</td>
+                                <td>
+                                    <lightning-input
+                                            class="input-price"
+                                            step="1"
+                                            type="number"
+                                            formatter="currency"
+                                            variant="label-hidden"
+                                            onblur={handleBlur}
+                                            data-index={amt.ano}
+                                            disabled={inputPriceDisabled}
+                                            data-saved-value={amt.data.savedAmount}
+                                            value={amt.data.Monthly_amount__c}>
+                                    </lightning-input>
+                                </td>
+                            </tr>
+                        </template>
+                    </template>
+
+                    </tbody>
+                </table>
+
+            </lightning-record-edit-form>
+        </div>
+
+        <div class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick={closeAction}>취소</button>
+            <button class="slds-button slds-button_brand btn-submit" onclick={handleClick}>등록</button>
+        </div>
+    </div>
+</template>

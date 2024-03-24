@@ -1,0 +1,30 @@
+<!--
+ - Created by MZC01-DGCHOI on 2024-03-07.
+ -->
+
+<!-- Sandi Product Review Cards -->
+<template>
+    <div class="reviews-selector">
+        <div class="reviews-order-set">
+            <div>최신순</div>
+            <div>별점순</div>
+        </div>
+
+        <div class="reviews-filter">
+            <lightning-combobox
+                    name="progress"
+                    value={value}
+                    variant="label-hidden"
+                    placeholder="전체"
+                    options={options}
+                    onchange={handleChange}>
+            </lightning-combobox>
+        </div>
+    </div>
+    <template for:each={productReviews} for:item="reviewData">
+        <c-sandi_product-review-card
+                key={reviewData.Id}
+                review-data={reviewData}>
+        </c-sandi_product-review-card>
+    </template>
+</template>

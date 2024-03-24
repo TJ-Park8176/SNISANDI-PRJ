@@ -1,0 +1,156 @@
+<template>
+    <lightning-modal-header label="고객 문의"></lightning-modal-header>
+    <lightning-modal-body> 
+        <section>
+            <div>
+                <header>
+                    <div class="slds-page-header slds-page-header_related-list">
+                        <div class="slds-page-header__row">
+                            <div class="slds-page-header__col-title">
+                                
+                                <div class="slds-media">
+                                    <div class="slds-media__body">
+                                        <div class="slds-page-header__name">
+                                            <div class="slds-page-header__name-title">
+                                                <h1>
+                                                    <span class="slds-page-header__title slds-truncate"
+                                                        title="고객 정보">고객 정보</span>
+                                                </h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </header>
+                <ul class="slds-p-around_small">
+                    <li>
+                        <lightning-input
+                            type="email"
+                            label="Email"
+                            placeholder="username@example.com"
+                            class="validate-target input-email"
+                            lwc:ref="email"
+                        >
+                        </lightning-input>
+                    </li>
+                    <li>
+                        <lightning-input 
+                        label="성" 
+                        readonly={isReadonly}
+                        class="validate-target input-last-name"
+                        lwc:ref="lastName"> </lightning-input>
+                    </li>
+                    <li>
+                        <lightning-input 
+                        label="이름" 
+                        readonly={isReadonly} 
+                        class="validate-target input-first-name"
+                        lwc:ref="firstName"> </lightning-input>
+                    </li>
+                    <li>
+                        <lightning-input
+                            type="tel"
+                            label="휴대폰 번호"
+                            class="validate-target input-phone"
+                            lwc:ref="phone"
+                        >
+                        </lightning-input>
+                    </li>
+                </ul>
+                
+            </div>
+            
+            <div>
+                <header>
+                    <div class="slds-page-header slds-page-header_related-list">
+                        <div class="slds-page-header__row">
+                            <div class="slds-page-header__col-title">
+                                
+                                <div class="slds-media">
+                                    <div class="slds-media__body">
+                                        <div class="slds-page-header__name">
+                                            <div class="slds-page-header__name-title">
+                                                <h1>
+                                                    <span class="slds-page-header__title slds-truncate"
+                                                        title="문의 내용">문의 내용</span>
+                                                </h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <ul class="slds-p-around_small">
+                    <li>
+                        <lightning-combobox
+                            name="progress"
+                            label="구분"
+                            options={options}
+                            lwc:ref="type"
+                            class="input-type"></lightning-combobox>
+                    </li>
+                    <li>
+                        <lightning-input 
+                        label="제목" 
+                        class="input-title"
+                        lwc:ref="title"></lightning-input>
+                    </li>
+                    <li>
+                        <lightning-input 
+                        label="내용" 
+                        class="input-detail"
+                        lwc:ref="detail"> </lightning-input>
+                    </li>
+                    <li>
+                        <label for="file">파일 업로드</label>
+                        <input 
+                        type="file"
+                        id="file"
+                        multiple="multiple"
+                        accept={acceptedFormats}
+                        lwc:ref="files"
+                        onchange={changeFiles} />
+
+
+                        <div class="file_list" lwc:if={uploadFiles.length}>
+                            <ul>
+                                <template for:each={uploadFiles} for:item="file" for:index="index">
+                                    <li key={file.name}>
+                                        <span>{file.name}</span>
+                                        <button 
+                                        onclick={deleteFileItem}
+                                        data-index={index}
+                                        >X</button>
+                                    </li>
+                                </template>
+                                
+                            </ul>
+                        </div>
+
+
+                        <!-- <lightning-file-upload
+                            label="파일 업로드"
+                            name="fileUploader"
+                            accept={acceptedFormats}
+                            record-id={myRecordId}
+                            file-field-name="Guest_Record_fileupload__c"
+                            file-field-value={encryptedToken}
+                            onuploadfinished={handleUploadFinished}
+                            multiple
+                            lwc:ref="file"
+                        >
+                        </lightning-file-upload> -->
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button label="문의 신청" onclick={requestCase}></lightning-button>
+    </lightning-modal-footer>
+</template>

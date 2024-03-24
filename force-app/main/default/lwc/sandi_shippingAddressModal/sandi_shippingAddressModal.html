@@ -1,0 +1,71 @@
+<!--
+ - Created by MZC01-DGCHOI on 2024-03-21.
+ -->
+
+<!-- Sandi Shipping Address Modal -->
+<template>
+    <lightning-modal-header
+            label="배송지 추가">
+    </lightning-modal-header>
+    <lightning-modal-body>
+        <iframe
+                src={visualforceSrc}
+                height="0"
+                width="100%"
+                frameborder="0"
+                onload={onLoad}
+                sandbox="allow-same-origin allow-popups allow-scripts allow-forms allow-modals">
+        </iframe>
+
+        <lightning-input
+                type="text"
+                label="Address name"
+                name="Address name"
+                variant="label-hidden"
+                placeholder="새 주소 이름"
+                value={addressName}
+                onchange={handleAddressName}>
+        </lightning-input>
+
+        <div class="custom-item_layout">
+            <lightning-input
+                type="text"
+                label="Address porstal"
+                name="Address postal"
+                variant="label-hidden"
+                disabled="true"
+                value={postalCode}
+                class="js-address-postal">
+            </lightning-input>
+
+            <a href="javascript:void(0)" onclick={searchAddress} data-type="Address">우편번호 찾기</a>
+        </div>
+
+        <lightning-input
+                type="text"
+                label="Address"
+                name="Address"
+                variant="label-hidden"
+                disabled="true"
+                value={fullAddress}
+                class="js-address">
+        </lightning-input>
+
+        <lightning-input
+                type="text"
+                label="Address detail"
+                name="Address detail"
+                variant="label-hidden"
+                placeholder="상세주소 입력"
+                value={addressDetail}
+                onchange={handleAddressDetailChange}
+                class="js-address-detail">
+        </lightning-input>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button
+                label="추가"
+                onclick={addAddress}>
+        </lightning-button>
+    </lightning-modal-footer>
+</template>

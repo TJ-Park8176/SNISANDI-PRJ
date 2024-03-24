@@ -1,0 +1,122 @@
+<template>
+    <div class="slds-grid slds-wrap slds-var-p-around_small">
+        <div class="slds-col slds-size_1-of-12 slds-large-size_1-of-12" style="margin-right:-10px;">
+            <!-- 장바구니 선택박스 -->
+             <input
+                class="slds-input cart-checkbox"
+                type="checkbox"
+                name="cart-checkbox"
+                checked={item.IsSelected_SANDI__c}
+                onchange={handleSelectBoxChanged}>
+        </div>
+        <div lwc:if={showProductImage}
+            class="slds-col slds-size_4-of-12 slds-large-size_2-of-12 slds-var-p-right_xxx-small" style="margin-right:10px;">
+            <img alt={item.ProductDetails.thumbnailImage.alternateText} class="thumbnailImg"
+                onclick={handleProductRedirection} src={item.ProductDetails.thumbnailImage.url}>
+        </div>
+        <div class="slds-col slds-grid slds-wrap slds-size_7-of-12 slds-large-size_9-of-12">
+            <!-- unit -->
+            <div>
+                <span class="salesTypeContainer">{item.SalesType_SANDI__c}</span>
+                <template if:true={item.isQuoteProduct}>
+                    <span class="salesTypeContainer">견적 요청</span>
+                </template>
+                <template if:true={item.isSpecialOfferProduct}>
+                    <span class="salesTypeContainer">Special Order</span>
+                </template>
+            </div>
+            <div class="slds-gutters slds-grid slds-wrap slds-col slds-size_1-of-1">
+                <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 autoFlex">
+                    <a onclick={handleProductRedirection}>
+                        <h2>
+                            <b>{item.ProductDetails.name}</b>
+                        </h2>
+                    </a>
+<!--                    <div lwc:if={showSku} class="productAttribute">-->
+<!--                        {labels.sku}# <lightning-formatted-rich-text value={item.ProductDetails.sku}>-->
+<!--                        </lightning-formatted-rich-text>-->
+<!--                    </div>-->
+                    <template for:each={fieldsWithLabels} for:item="itemField">
+                        <div key={itemField} class="productAttribute">
+                            {itemField.label}: <lightning-formatted-rich-text value={itemField.value}>
+                            </lightning-formatted-rich-text>
+                        </div>
+                    </template>
+                </div>
+                <div lwc:if={showPricePerUnit}
+                    class="slds-col slds-size_1-of-1 slds-large-size_3-of-12 dynamicTextAlign autoFlex">
+                    <lightning-formatted-number format-style="currency" currency-code={currencyCode}
+                        currency-display-as="symbol" maximum-fraction-digits="2" value={item.salesPrice}>
+                    </lightning-formatted-number>/{labels.item}
+                </div>
+                <div lwc:if={showLineItemTotal}
+                    class="slds-grid slds-wrap slds-col slds-size_1-of-1 slds-large-size_3-of-12 dynamicTextAlign">
+                    <div lwc:if={showActualPrice}>
+                        <b>
+                            <lightning-formatted-number format-style="currency" currency-code={currencyCode}
+                                currency-display-as="symbol" maximum-fraction-digits="2" value={item.price}>
+                            </lightning-formatted-number>
+                        </b>
+                    </div>
+                    <div lwc:if={needsOriginalPrice} class="listPrice">
+                        <lightning-formatted-number format-style="currency" currency-code={currencyCode}
+                            currency-display-as="symbol" maximum-fraction-digits="2" value={item.listPrice}>
+                        </lightning-formatted-number>
+                    </div>
+
+                </div>
+
+            </div>
+            <div>
+                <div class="actionsContainer">
+                    <!-- 옵션 변경 -->
+                    <div lwc:if={isVariationItem} class="optionChangeContainer">
+                        <lightning-button
+                            variant="brand"
+                            label="옵션 변경"
+                            title="옵션 변경"
+                            onclick={handleModal}>
+                        </lightning-button>
+                    </div>
+                    <!-- 견적 요청 -->
+                    <div lwc:if={item.isSpecialOfferProduct} class="requestSpecialOfferContainer">
+                        견적 요청
+                        <input
+                            class="slds-input cart-checkbox cart-checkbox-special-offer"
+                            type="checkbox"
+                            name="cart-checkbox"
+                            checked={item.IsSpecialOffer_SANDI__c}
+                            onchange={handleSpecialOfferChanged}>
+                    </div>
+                    <template if:true={isSalesProduct}>
+                        <div if:false={hideQuantitySelector} class="quantitySelectorContainer">
+                            <lightning-helptext lwc:if={hasQuantityRule} content={quantityRuleHelpText} class="helpText">
+                            </lightning-helptext>
+                            <lightning-button-icon disabled={stopDecreaseQuantity}
+                                class="quantityButton quantityDecrementButton" icon-name="utility:dash"
+                                onclick={decreaseQty}>
+                                <label>{labels.decrease}</label>
+                            </lightning-button-icon>
+                            <lightning-input lwc:ref="quantitySelector" type="number" formatter="decimal"
+                                class="slds-text-align_center quantityInput" onblur={handleQtyChange} name="quantity"
+                                value={quantity} min={minQuantity} max={maxQuantity} step={incrementStep}></lightning-input>
+                            <lightning-button-icon disabled={stopIncreaseQuantity}
+                                class="quantityButton quantityIncrementButton" icon-name="utility:add"
+                                onclick={increaseQty}>
+                                <label>{labels.increase}</label>
+                            </lightning-button-icon>
+                        </div>
+                    </template>
+                    <lightning-button lwc:if={showRemoveItemOption} onclick={handleDelete} variant="base"
+                        label={labels.delete} title={labels.delete} class="slds-var-m-left_x-small deleteBtn">
+                    </lightning-button>
+                </div>
+                <div lwc:if={savedAmount} class="customBadge" style={additionalBadgeStyle}>
+                    {labels.saved} <lightning-formatted-number format-style="currency" currency-code={currencyCode}
+                        currency-display-as="symbol" maximum-fraction-digits="2" value={savedAmount}>
+                    </lightning-formatted-number>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

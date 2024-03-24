@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>54.0</apiVersion>
+    <description>Sandi Floating Menu</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Sandi Floating Menu</masterLabel>
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightningCommunity__Default</target>
+        <target>lightningCommunity__Page</target>
+    </targets>
+<!--    <targetConfigs>-->
+<!--        <targetConfig targets="lightningCommunity__Default">-->
+<!--            <property name="image_key_cart" type="ContentReference" label="Cart 아이콘 이미지" filter="cms_image"/>-->
+<!--            <property name="image_key_wishlist" type="ContentReference" label="Wishlist 아이콘 이미지" filter="cms_image"/>-->
+<!--            <property name="image_key_recent" type="ContentReference" label="최근 본 상품 아이콘 이미지" filter="cms_image"/>-->
+<!--            <property name="image_key_gotop" type="ContentReference" label="맨 위로 이동 아이콘 이미지" filter="cms_image"/>-->
+<!--        </targetConfig>-->
+<!--    </targetConfigs>-->
+</LightningComponentBundle>
