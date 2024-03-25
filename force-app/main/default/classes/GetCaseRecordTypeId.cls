@@ -1,3 +1,9 @@
+// * @description       : DeveloperName를 변수로 사용하여 Case 기준으로 RecordTypeId를 가져 오도록 함 Flow호출용.
+// * @author            : taejoon.park@origincs.com
+// * @group             : OriginCS
+// * @last modified on  : 2024-03-23
+// * @last modified by  : taejoon.park@origincs.com
+
 public class GetCaseRecordTypeId {
     
 // 이 메소드는 DeveloperName을 기반으로 Case RecordType Id를 검색합니다.
